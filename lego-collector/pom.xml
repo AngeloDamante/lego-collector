@@ -31,11 +31,30 @@
 		<junit.version>4.13</junit.version>
 		<assertj.version>3.17.1</assertj.version>
 		<mockito.version>3.2.4</mockito.version>
-		
-	    <!-- sonar -->
+
+		<!-- sonar -->
 		<sonar.coverage.exclusions>
 			**/model/*.*
 		</sonar.coverage.exclusions>
+		<sonar.junit.reportPaths>
+			${project.build.directory}/surefire-reports,
+			${project.build.directory}/failsafe-reports
+		</sonar.junit.reportPaths>
+		<sonar.issue.ignore.multicriteria>e11,e12</sonar.issue.ignore.multicriteria>
+
+		<sonar.issue.ignore.multicriteria.e11.ruleKey>
+			java:S110
+		</sonar.issue.ignore.multicriteria.e11.ruleKey>
+		<sonar.issue.ignore.multicriteria.e11.resourceKey>
+			**/*.java
+		</sonar.issue.ignore.multicriteria.e11.resourceKey>
+		<sonar.issue.ignore.multicriteria.e12.ruleKey>
+			java:S117
+		</sonar.issue.ignore.multicriteria.e12.ruleKey>
+<!-- 		<sonar.issue.ignore.multicriteria.e12.resourceKey>
+			**/StudentSwingView.java
+		</sonar.issue.ignore.multicriteria.e12.resourceKey>
+-->
 	</properties>
 
 	<dependencies>
