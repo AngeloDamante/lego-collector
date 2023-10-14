@@ -34,7 +34,7 @@
 		
 	    <!-- sonar -->
 		<sonar.coverage.exclusions>
-			**/models/*.*
+			**/model/*.*
 		</sonar.coverage.exclusions>
 	</properties>
 
