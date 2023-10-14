@@ -28,13 +28,17 @@ jobs:
       -  name: Build with Maven
          run: >
             mvn verify 
-            -Pjacoco coveralls:report 
+            -Pjacoco coveralls:report sonar:sonar
             -DrepoToken=$COVERALLS_TOKEN 
             -DpullRequest=$PULL_REQUEST
+            -Dsonar.organization=angelodamante
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.projectKey=AngeloDamante_lego-collector
          working-directory: ${{ env.workdir }}
          env:
             COVERALLS_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
             PULL_REQUEST: ${{ github.event.pull_request.number }}
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
          
       -  name: Generate Report
          run: mvn surefire-report:report-only site:site -DgenerateReports=false
