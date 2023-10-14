@@ -33,8 +33,8 @@ jobs:
             -DpullRequest=$PULL_REQUEST
          working-directory: ${{ env.workdir }}
          env:
-            COVERALLS_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
-            PULL_REQUEST=${{ github.event.pull_request.number }}
+            COVERALLS_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+            PULL_REQUEST: ${{ github.event.pull_request.number }}
          
       -  name: Generate Report
          run: mvn surefire-report:report-only site:site -DgenerateReports=false
