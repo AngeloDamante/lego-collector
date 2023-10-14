@@ -29,6 +29,12 @@ jobs:
             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml', '**/*.yml') }}
             restore-keys: ${{ runner.os }}-m2-
             
-      -  name: Build with Maven
-         run: mvn verify
+      -  name: Build with Maven and create report
+         run: mvn verify surefire-report:report-only site:site -DgenerateReports=false
          working-directory: ${{ env.workdir }}
+         
+      -  name: Upload JUnit Report
+         uses: actions/upload-artifact@v2
+         with:
+            name: surefire-report-jdk-${{ matrix.java }}
+            path: '**/target/site'
