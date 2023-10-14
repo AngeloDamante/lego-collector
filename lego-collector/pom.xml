@@ -31,6 +31,7 @@
 		<junit.version>4.13</junit.version>
 		<assertj.version>3.17.1</assertj.version>
 		<mockito.version>3.2.4</mockito.version>
+		<log4j.version>2.13.0</log4j.version>
 
 		<!-- sonar -->
 		<sonar.coverage.exclusions>
@@ -76,6 +77,16 @@
 			<artifactId>mockito-core</artifactId>
 			<version>${mockito.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -167,7 +178,8 @@
 				</plugins>
 			</build>
 		</profile>
-				<!-- Configuration of PIT plugin  -->
+
+		<!-- Configuration of PIT plugin  -->
 		<profile>
 			<id>pit</id>
 			<build>

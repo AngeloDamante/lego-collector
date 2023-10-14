@@ -15,7 +15,7 @@ public class LegoApp {
 					LegoSwingView frame = new LegoSwingView();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}
 		});
