@@ -137,7 +137,7 @@
 							<param>com.angelodamante.app.*</param>
 						</targetTests>
 						<excludedTestClasses>
-							<param>**.*Test</param>
+							<param>com.angelodamante.app.view.LegoSwingViewTest</param>
 						</excludedTestClasses>
 						<mutators>
 							<mutator>DEFAULTS</mutator>
