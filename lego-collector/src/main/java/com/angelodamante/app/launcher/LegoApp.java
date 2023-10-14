@@ -1,6 +1,8 @@
 package com.angelodamante.app.launcher;
 
 import java.awt.EventQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.angelodamante.app.view.LegoSwingView;
 
@@ -15,7 +17,7 @@ public class LegoApp {
 					LegoSwingView frame = new LegoSwingView();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
+					Logger.getLogger(LegoApp.class.getName()).log(Level.SEVERE, "Exception", e);
 				}
 			}
 		});
