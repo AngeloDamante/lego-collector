@@ -1,5 +1,4 @@
-# This workflow will build a Java project with Maven
-name: Java CI with Maven in Linux
+name: CI tests
 on:
    push: null
    pull_request: null
@@ -7,21 +6,40 @@ on:
 jobs:
    build:
       runs-on: ubuntu-latest
+      strategy:
+         matrix:
+            java: [ 8, 11 ]
       env:
          workdir: lego-collector
 
+      name: Build with Java ${{ matrix.java }}
       steps:
       -  uses: actions/checkout@v2
-      -  name: Set up JDK 8
+      
+      -  name: Set up JDK ${{ matrix.java }}
          uses: actions/setup-java@v1
          with:
-            java-version: 1.8
+            java-version: ${{ matrix.java }}
+         
       -  name: Cache Maven packages
          uses: actions/cache@v2
          with:
             path: ~/.m2
-            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml', '**/*.yml') }}
             restore-keys: ${{ runner.os }}-m2-
+            
       -  name: Build with Maven
          run: mvn verify
          working-directory: ${{ env.workdir }}
+         
+      -  name: Generate Report
+         run: mvn surefire-report:report-only site:site -DgenerateReports=false
+         working-directory: ${{ env.workdir }}
+         if: ${{ always() }}
+         
+      -  name: Upload JUnit Report
+         uses: actions/upload-artifact@v2
+         if: ${{ always() }}
+         with:
+            name: surefire-report-jdk-${{ matrix.java }}
+            path: '**/target/site'
