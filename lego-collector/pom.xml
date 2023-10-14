@@ -128,12 +128,17 @@
 					<artifactId>pitest-maven</artifactId>
 					<version>${pit.version}</version>
 					<configuration>
+						<excludedClasses>
+							<param>com.angelodamante.app.model.*</param>
+							<param>com.angelodamante.app.launcher.*</param>
+							<param>com.angelodamante.app.view.*</param>
+						</excludedClasses>
 						<targetClasses>
-							<param>com.angelodamante.app.controller.*</param>
+							<param>com.angelodamante.app.*</param>
 						</targetClasses>
-						<targetTests>
-							<param>com.angelodamante.app.controller.*</param>
-						</targetTests>
+						<excludedTestClasses>
+							<param>com.angelodamante.app.view.*</param>
+						</excludedTestClasses>
 						<mutators>
 							<mutator>DEFAULTS</mutator>
 						</mutators>
