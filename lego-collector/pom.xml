@@ -25,11 +25,17 @@
 		<coveralls.version>4.3.0</coveralls.version>
 		<pit.version>1.5.2</pit.version>
 		<javax.version>2.3.1</javax.version>
-		
+		<sonar.version>3.8.0.2131</sonar.version>
+
 		<!-- dependencies versions -->
-		<junit.version>4.13</junit.version>		
+		<junit.version>4.13</junit.version>
 		<assertj.version>3.17.1</assertj.version>
 		<mockito.version>3.2.4</mockito.version>
+		
+	    <!-- sonar -->
+		<sonar.coverage.exclusions>
+			**/model/*.*
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -112,6 +118,11 @@
 						</mutators>
 						<mutationThreshold>80</mutationThreshold>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
