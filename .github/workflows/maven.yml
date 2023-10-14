@@ -27,8 +27,8 @@ jobs:
             
       -  name: Build with Maven
          run: >
-            mvn verify 
-            -Pjacoco coveralls:report sonar:sonar
+            xvfb-run mvn verify 
+            -Pjacoco coveralls:report org.pitest:pitest-maven:mutationCoverage sonar:sonar
             -DrepoToken=$COVERALLS_TOKEN 
             -DpullRequest=$PULL_REQUEST
             -Dsonar.organization=angelodamante

@@ -137,7 +137,7 @@
 							<param>com.angelodamante.app.*</param>
 						</targetTests>
 						<excludedTestClasses>
-							<param>com.angelodamante.app.view.*</param>
+							<param>**.*Test</param>
 						</excludedTestClasses>
 						<mutators>
 							<mutator>DEFAULTS</mutator>
