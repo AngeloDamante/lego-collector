@@ -1,5 +1,4 @@
-# This workflow will build a Java project with Maven
-name: Java CI with Maven in Linux
+name: CI tests
 on:
    push: null
    pull_request: null
@@ -29,12 +28,18 @@ jobs:
             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml', '**/*.yml') }}
             restore-keys: ${{ runner.os }}-m2-
             
-      -  name: Build with Maven and create report
-         run: mvn verify surefire-report:report-only site:site -DgenerateReports=false
+      -  name: Build with Maven
+         run: mvn verify
          working-directory: ${{ env.workdir }}
+         
+      -  name: Generate Report
+         run: mvn surefire-report:report-only site:site -DgenerateReports=false
+         working-directory: ${{ env.workdir }}
+         if: ${{ always() }}
          
       -  name: Upload JUnit Report
          uses: actions/upload-artifact@v2
+         if: ${{ always() }}
          with:
             name: surefire-report-jdk-${{ matrix.java }}
             path: '**/target/site'
