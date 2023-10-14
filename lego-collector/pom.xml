@@ -31,6 +31,12 @@
 			<version>3.17.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.2.4</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -75,6 +81,23 @@
 							<version>2.3.1</version>
 						</dependency>
 					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>1.5.2</version>
+					<configuration>
+						<targetClasses>
+							<param>com.angelodamante.app.controller.*</param>
+						</targetClasses>
+						<targetTests>
+							<param>com.angelodamante.app.controller.*</param>
+						</targetTests>
+						<mutators>
+							<mutator>DEFAULTS</mutator>
+						</mutators>
+						<mutationThreshold>80</mutationThreshold>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
