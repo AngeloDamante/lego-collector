@@ -133,9 +133,9 @@
 							<param>com.angelodamante.app.launcher.*</param>
 							<param>com.angelodamante.app.view.*</param>
 						</excludedClasses>
-						<targetClasses>
+						<targetTests>
 							<param>com.angelodamante.app.*</param>
-						</targetClasses>
+						</targetTests>
 						<excludedTestClasses>
 							<param>com.angelodamante.app.view.*</param>
 						</excludedTestClasses>
