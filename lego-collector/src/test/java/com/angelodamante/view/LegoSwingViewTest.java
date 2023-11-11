@@ -5,6 +5,7 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.runner.RunWith;
 
 import com.angelodamante.model.entities.LegoEntity;
+import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.view.LegoSwingView;
 
 import org.junit.Test;
@@ -39,13 +40,21 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.label(JLabelMatcher.withText("name"));
 		window.textBox("txtName").requireEnabled();
 	}
-	
+
 	@Test
 	public void testGetLegos() {
 		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
 		GuiActionRunner.execute(() -> legoSwingView.showAllLegos(Arrays.asList(lego)));
 		String[] legos = window.list("listLegos").contents();
 		assertThat(legos).containsExactly(lego.toString());
+	}
+
+	@Test
+	public void testGetKits() {
+		KitEntity kit =  new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.showAllKits(Arrays.asList(kit)));
+		String[] kits = window.list("listKits").contents();
+		assertThat(kits).containsExactly(kit.toString());
 	}
 
 }

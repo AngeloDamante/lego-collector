@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 
 import java.awt.GridBagLayout;
@@ -24,6 +25,8 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private JTextField txtName;
 	private JList listLegos;
 	private DefaultListModel<LegoEntity> listLegosModel;
+	private JList listKits;
+	private DefaultListModel<KitEntity> listKitsModel;
 
 	/**
 	 * Create the frame.
@@ -39,7 +42,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
 		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_contentPane.columnWeights = new double[] { 0, 1.0, Double.MIN_VALUE };
-		gbl_contentPane.rowWeights = new double[] { 0, 0, 0, 0, 1.0, 0, 0, 0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0, 0, 0, 0, 1.0, 0, 0, 1.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 
 		JLabel lblName = new JLabel("name");
@@ -71,11 +74,26 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		contentPane.add(listLegos, gbc_listLegos);
 
+		listKitsModel = new DefaultListModel<>();
+		listKits = new JList<>(listKitsModel);
+		GridBagConstraints gbc_list = new GridBagConstraints();
+		gbc_list.fill = GridBagConstraints.BOTH;
+		gbc_list.gridx = 1;
+		gbc_list.gridy = 7;
+		listKits.setName("listKits");
+		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		contentPane.add(listKits, gbc_list);
+
 	}
 
 	@Override
 	public void showAllLegos(List<LegoEntity> legos) {
 		legos.stream().forEach(listLegosModel::addElement);
+	}
+
+	@Override
+	public void showAllKits(List<KitEntity> kits) {
+		kits.stream().forEach(listKitsModel::addElement);
 	}
 
 }

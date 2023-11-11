@@ -58,5 +58,10 @@ public class LegoEntity extends Entity {
 	public void setKitId(Integer kitId) {
 		this.kitId = kitId;
 	}
+	
+	@Override
+	public String toString() {
+		return "lego " + this.getId() + ": " + this.getProductCode() + " [" + buds + " buds]";
+	}
 
 }

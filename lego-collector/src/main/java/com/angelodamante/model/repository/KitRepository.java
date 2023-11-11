@@ -2,9 +2,9 @@ package com.angelodamante.model.repository;
 
 import java.util.List;
 
-import com.angelodamante.model.entities.LegoEntity;
+import com.angelodamante.model.entities.KitEntity;
 
 // connect code to repository (db connector)
 public interface KitRepository {
-	public List<LegoEntity> getKits();
+	public List<KitEntity> getKits();
 }

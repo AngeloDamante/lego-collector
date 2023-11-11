@@ -38,4 +38,9 @@ public class KitEntity extends Entity {
 		return Objects.equals(name, other.name);
 	}
 
+	@Override
+	public String toString() {
+		return "kit " + this.getId() + ": " + this.getProductCode() + " [" + name + "]";
+	}
+
 }
