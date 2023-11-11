@@ -9,4 +9,6 @@ public interface KitRepository {
 	public List<KitEntity> getAllKits();
 
 	public KitEntity add(String productCode, String name);
+
+	public void remove(KitEntity kit);
 }

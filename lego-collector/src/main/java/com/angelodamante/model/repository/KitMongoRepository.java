@@ -10,6 +10,7 @@ import static com.mongodb.client.model.Sorts.descending;
 import com.angelodamante.model.entities.KitEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 
 public class KitMongoRepository implements KitRepository {
 
@@ -42,6 +43,11 @@ public class KitMongoRepository implements KitRepository {
 
 	private Document fromKitToDocument(KitEntity k) {
 		return new Document().append("id", k.getId()).append("productCode", k.getProductCode()).append("name", k.getName()); 
+	}
+
+	@Override
+	public void remove(KitEntity kit) {
+		kitCollection.deleteOne(Filters.eq("id", kit.getId()));
 	}
 
 }

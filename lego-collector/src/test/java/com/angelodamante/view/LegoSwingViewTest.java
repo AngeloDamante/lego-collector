@@ -1,6 +1,8 @@
 package com.angelodamante.view;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
 import javax.swing.DefaultListModel;
@@ -91,15 +93,45 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox(JTextComponentMatcher.withName("txtName")).enterText("n");
 		window.button(JButtonMatcher.withName("btnAddKit")).click();
 		verify(legoController).addKit("p", "n");
-
 	}
 
 	@Test
-	public void testonAddedKitShouldAddTheKitToTheList() {
+	public void testOnAddedKitShouldAddTheKitToTheList() {
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
 		String[] listContents = window.list("listKits").contents();
 		assertThat(listContents).containsExactly(kit.toString());
 	}
 
+	@Test
+	public void testWhenKitIsSelectedDeleteButtonIsEnabled() {
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		assertTrue(window.button(JButtonMatcher.withName("btnDeleteKit")).isEnabled());
+	}
+
+	@Test
+	public void testWhenKitIsNotSelectedDeleteButtonIsDisabled() {
+		assertFalse(window.button(JButtonMatcher.withName("btnDeleteKit")).isEnabled());
+	}
+	
+	@Test
+	public void testDeleteKit() {
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		window.button(JButtonMatcher.withName("btnDeleteKit")).click();
+		verify(legoController).removeKit(kit);
+	}
+
+	@Test
+	public void testOnDeletedKitShouldDeleteFromList() {
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		GuiActionRunner.execute(() -> legoSwingView.onDeletedKit(kit));
+		
+		String[] listContents = window.list("listKits").contents();
+		assertThat(listContents).isEmpty();
+	}
 }

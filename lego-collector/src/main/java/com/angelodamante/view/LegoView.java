@@ -11,4 +11,6 @@ public interface LegoView {
 	public void showAllKits(List<KitEntity> kits);
 
 	public void onAddedKit(KitEntity kitEntity);
+
+	public void onDeletedKit(KitEntity kit);
 }

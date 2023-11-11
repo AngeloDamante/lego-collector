@@ -107,4 +107,12 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 				.anySatisfy(e -> assertThat(e).contains(
 						new KitEntity(KIT_FIXTURE_2_ID, KIT_FIXTURE_2_PRODUCTCODE, KIT_FIXTURE_2_NAME).toString()));
 	}
+	
+	@Test
+	@GUITest
+	public void testDeleteKitSuccess() {
+		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
+		window.button(JButtonMatcher.withName("btnDeleteKit")).click();
+		assertThat(window.list("listKits").contents()).noneMatch(e -> e.contains(KIT_FIXTURE_1_PRODUCTCODE));
+	}
 }

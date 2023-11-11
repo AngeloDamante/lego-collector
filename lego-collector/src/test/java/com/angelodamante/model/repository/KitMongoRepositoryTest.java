@@ -107,9 +107,16 @@ public class KitMongoRepositoryTest {
 	public void testAddKitWhenThereAreUnorderedKits() {
 		addTestKitToDatabase(1, "p1", "n1");
 		addTestKitToDatabase(0, "p0", "n0");
-
+		
 		KitEntity k = kitMongoRepository.add("p", "n");
 		assertEquals(new KitEntity(2, "p", "n"), k);
 		assertThat(readAllKits()).containsExactly(new KitEntity(1, "p1", "n1"), new KitEntity(0, "p0", "n0"), new KitEntity(2, "p", "n"));
+	}
+	
+	@Test
+	public void testDeleteKit() {
+		addTestKitToDatabase(1, "p1", "n1");
+		kitMongoRepository.remove(new KitEntity(1, "p1", "n1"));
+		assertThat(readAllKits()).isEmpty();
 	}
 }

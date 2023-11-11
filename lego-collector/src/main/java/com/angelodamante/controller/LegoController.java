@@ -33,4 +33,9 @@ public class LegoController {
 		KitEntity kitEntity = kitRepository.add(productCode, name);
 		legoView.onAddedKit(kitEntity);
 	}
+
+	public void removeKit(KitEntity kit) {
+		kitRepository.remove(kit);
+		legoView.onDeletedKit(kit);
+	}
 }

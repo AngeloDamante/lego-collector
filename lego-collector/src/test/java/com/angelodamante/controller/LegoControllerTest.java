@@ -60,8 +60,18 @@ public class LegoControllerTest {
 	public void testAddKit() {
 		KitEntity k = new KitEntity(0, "n", "p");
 		when(kitRepository.add("n", "p")).thenReturn(k);
-
+		
 		legoController.addKit("n", "p");
 		verify(legoView).onAddedKit(k);
 	}
+	
+	@Test
+	public void testDeleteKit() {
+		KitEntity k = new KitEntity(0, "n", "p");
+		legoController.removeKit(k);
+		verify(legoView).onDeletedKit(k);
+		verify(kitRepository).remove(k);
+	}
+	
+	
 }

@@ -29,9 +29,9 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtProductCode;
-	private JList listLegos;
+	private JList<LegoEntity> listLegos;
 	private DefaultListModel<LegoEntity> listLegosModel;
-	private JList listKits;
+	private JList<KitEntity> listKits;
 	private DefaultListModel<KitEntity> listKitsModel;
 	private JLabel lblName;
 	private JTextField txtName;
@@ -40,6 +40,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private JScrollPane scrollPaneKit;
 
 	private LegoController legoController;
+	private JButton btnDeleteKit;
 
 	/**
 	 * Create the frame.
@@ -115,10 +116,6 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(btnAddKit, gbc_btnAddKit);
 		btnAddKit.addActionListener(e -> btnAddKitPressed());
 
-		
-		
-		
-		
 		scrollPaneLego = new JScrollPane();
 		GridBagConstraints gbc_scrollPaneLego = new GridBagConstraints();
 		gbc_scrollPaneLego.insets = new Insets(0, 0, 5, 0);
@@ -132,10 +129,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listLegos.setName("listLegos");
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneLego.setViewportView(listLegos);
-		
-		
-		
-		
+
 		scrollPaneKit = new JScrollPane();
 		GridBagConstraints gbc_scrollPaneKit = new GridBagConstraints();
 		gbc_scrollPaneKit.insets = new Insets(0, 0, 5, 0);
@@ -143,12 +137,26 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_scrollPaneKit.gridx = 1;
 		gbc_scrollPaneKit.gridy = 6;
 		contentPane.add(scrollPaneKit, gbc_scrollPaneKit);
-		
+
 		listKitsModel = new DefaultListModel<>();
 		listKits = new JList<>(listKitsModel);
+		listKits.addListSelectionListener(listSelectionEvent -> {
+			btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
+		});
 		listKits.setName("listKits");
 		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneKit.setViewportView(listKits);
+		
+		btnDeleteKit = new JButton("Delete Kit");
+		btnDeleteKit.setEnabled(false);
+		GridBagConstraints gbc_btnDeleteKit = new GridBagConstraints();
+		gbc_btnDeleteKit.gridx = 1;
+		gbc_btnDeleteKit.gridy = 7;
+		btnDeleteKit.setName("btnDeleteKit");
+		contentPane.add(btnDeleteKit, gbc_btnDeleteKit);
+		btnDeleteKit.addActionListener(e -> legoController.removeKit(listKits.getSelectedValue()));
+
+		
 
 	}
 
@@ -173,6 +181,11 @@ public class LegoSwingView extends JFrame implements LegoView {
 	@Override
 	public void onAddedKit(KitEntity kitEntity) {
 		listKitsModel.addElement(kitEntity);
+	}
+
+	@Override
+	public void onDeletedKit(KitEntity kit) {
+		listKitsModel.removeElement(kit);
 	}
 
 }
