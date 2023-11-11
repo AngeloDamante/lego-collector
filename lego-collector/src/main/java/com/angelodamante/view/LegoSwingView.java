@@ -3,6 +3,7 @@ package com.angelodamante.view;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import com.angelodamante.controller.LegoController;
@@ -35,7 +36,9 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private JLabel lblName;
 	private JTextField txtName;
 	private JButton btnAddKit;
-	
+	private JScrollPane scrollPaneLego;
+	private JScrollPane scrollPaneKit;
+
 	private LegoController legoController;
 
 	/**
@@ -44,7 +47,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 	public LegoSwingView() {
 		setTitle("Lego Collector");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 910, 618);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -82,8 +85,6 @@ public class LegoSwingView extends JFrame implements LegoView {
 		};
 		txtProductCode.addKeyListener(keyAdapterAddBtnEnabler);
 
-		listLegosModel = new DefaultListModel<>();
-
 		lblName = new JLabel("name");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.anchor = GridBagConstraints.EAST;
@@ -92,7 +93,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_lblName.gridy = 1;
 		lblName.setName("lblName");
 		contentPane.add(lblName, gbc_lblName);
-		
+
 		txtName = new JTextField();
 		GridBagConstraints gbc_txtName = new GridBagConstraints();
 		gbc_txtName.insets = new Insets(0, 0, 5, 0);
@@ -103,7 +104,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		txtName.setName("txtName");
 		txtName.setColumns(10);
 		txtName.addKeyListener(keyAdapterAddBtnEnabler);
-		
+
 		btnAddKit = new JButton("Add Kit");
 		btnAddKit.setEnabled(false);
 		GridBagConstraints gbc_btnAddKit = new GridBagConstraints();
@@ -114,25 +115,40 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(btnAddKit, gbc_btnAddKit);
 		btnAddKit.addActionListener(e -> btnAddKitPressed());
 
+		
+		
+		
+		
+		scrollPaneLego = new JScrollPane();
+		GridBagConstraints gbc_scrollPaneLego = new GridBagConstraints();
+		gbc_scrollPaneLego.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPaneLego.fill = GridBagConstraints.BOTH;
+		gbc_scrollPaneLego.gridx = 1;
+		gbc_scrollPaneLego.gridy = 4;
+		contentPane.add(scrollPaneLego, gbc_scrollPaneLego);
+
+		listLegosModel = new DefaultListModel<>();
 		listLegos = new JList<>(listLegosModel);
-		GridBagConstraints gbc_listLegos = new GridBagConstraints();
-		gbc_listLegos.insets = new Insets(0, 0, 5, 0);
-		gbc_listLegos.fill = GridBagConstraints.BOTH;
-		gbc_listLegos.gridx = 1;
-		gbc_listLegos.gridy = 4;
 		listLegos.setName("listLegos");
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		contentPane.add(listLegos, gbc_listLegos);
-
+		scrollPaneLego.setViewportView(listLegos);
+		
+		
+		
+		
+		scrollPaneKit = new JScrollPane();
+		GridBagConstraints gbc_scrollPaneKit = new GridBagConstraints();
+		gbc_scrollPaneKit.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPaneKit.fill = GridBagConstraints.BOTH;
+		gbc_scrollPaneKit.gridx = 1;
+		gbc_scrollPaneKit.gridy = 6;
+		contentPane.add(scrollPaneKit, gbc_scrollPaneKit);
+		
 		listKitsModel = new DefaultListModel<>();
 		listKits = new JList<>(listKitsModel);
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 1;
-		gbc_list.gridy = 7;
 		listKits.setName("listKits");
 		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		contentPane.add(listKits, gbc_list);
+		scrollPaneKit.setViewportView(listKits);
 
 	}
 
