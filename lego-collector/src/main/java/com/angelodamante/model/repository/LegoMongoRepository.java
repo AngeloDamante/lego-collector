@@ -10,7 +10,7 @@ import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 
-public class LegoMongoRepository {
+public class LegoMongoRepository implements LegoRepository {
 
 	private MongoCollection<Document> legoCollection;
 

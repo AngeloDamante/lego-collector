@@ -9,4 +9,6 @@ public interface LegoView {
 	public void showAllLegos(List<LegoEntity> legos);
 
 	public void showAllKits(List<KitEntity> kits);
+
+	public void onAddedKit(KitEntity kitEntity);
 }

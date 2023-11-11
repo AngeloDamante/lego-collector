@@ -6,5 +6,7 @@ import com.angelodamante.model.entities.KitEntity;
 
 // connect code to repository (db connector)
 public interface KitRepository {
-	public List<KitEntity> getKits();
+	public List<KitEntity> getAllKits();
+
+	public KitEntity add(String productCode, String name);
 }

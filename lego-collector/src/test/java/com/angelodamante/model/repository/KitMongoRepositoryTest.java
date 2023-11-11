@@ -1,8 +1,12 @@
 package com.angelodamante.model.repository;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.bson.Document;
 import org.junit.After;
@@ -62,18 +66,50 @@ public class KitMongoRepositoryTest {
 	}
 
 	private void addTestKitToDatabase(Integer id, String productCode, String name) {
-		kitCollection.insertOne(new Document().append("id", id).append("productCode", productCode).append("name", name));
+		kitCollection
+				.insertOne(new Document().append("id", id).append("productCode", productCode).append("name", name));
 	}
 
 	@Test
-	public void testGetAllKitsWhenNoLegos() {
+	public void testGetAllKitsWhenNoKits() {
 		assertThat(kitMongoRepository.getAllKits()).isEmpty();
 	}
 
 	@Test
-	public void testGetAllLegosWhenThereIsOneLego() {
+	public void testGetAllKitsWhenThereIsOnekit() {
 		addTestKitToDatabase(0, "40383", "brick");
 		assertThat(kitMongoRepository.getAllKits()).containsExactly(new KitEntity(0, "40383", "brick"));
 	}
 
+	private List<KitEntity> readAllKits() {
+		return StreamSupport.stream(kitCollection.find().spliterator(), false)
+				.map(d -> new KitEntity(d.getInteger("id"), "" + d.get("productCode"), "" + d.get("name")))
+				.collect(Collectors.toList());
+	}
+	
+	@Test
+	public void testAddKitWhenNoKits() {
+		KitEntity k = kitMongoRepository.add("p", "n");
+		assertEquals(new KitEntity(0, "p", "n"), k);
+		assertThat(readAllKits()).containsExactly(new KitEntity(0, "p", "n"));
+	}
+
+	@Test
+	public void testAddKitWhenThereIsOnekit() {
+		addTestKitToDatabase(0, "p0", "n0");
+
+		KitEntity k = kitMongoRepository.add("p", "n");
+		assertEquals(new KitEntity(1, "p", "n"), k);
+		assertThat(readAllKits()).containsExactly(new KitEntity(0, "p0", "n0"), new KitEntity(1, "p", "n"));
+	}
+
+	@Test
+	public void testAddKitWhenThereAreUnorderedKits() {
+		addTestKitToDatabase(1, "p1", "n1");
+		addTestKitToDatabase(0, "p0", "n0");
+
+		KitEntity k = kitMongoRepository.add("p", "n");
+		assertEquals(new KitEntity(2, "p", "n"), k);
+		assertThat(readAllKits()).containsExactly(new KitEntity(1, "p1", "n1"), new KitEntity(0, "p0", "n0"), new KitEntity(2, "p", "n"));
+	}
 }

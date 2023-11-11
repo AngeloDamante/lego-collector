@@ -20,12 +20,17 @@ public class LegoController {
 	}
 
 	public void allLegos() {
-		List<LegoEntity> legos = legoRepository.getLegos();
+		List<LegoEntity> legos = legoRepository.getAllLegos();
 		legoView.showAllLegos(legos);
 	}
 	
 	public void allKits() {
-		List<KitEntity> kits = kitRepository.getKits();
+		List<KitEntity> kits = kitRepository.getAllKits();
 		legoView.showAllKits(kits);
+	}
+
+	public void addKit(String productCode, String name) {
+		KitEntity kitEntity = kitRepository.add(productCode, name);
+		legoView.onAddedKit(kitEntity);
 	}
 }

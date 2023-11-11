@@ -39,7 +39,7 @@ public class LegoControllerTest {
 		List<LegoEntity> legos = new ArrayList<LegoEntity>();
 		legos.add(new LegoEntity(0, "6383", 8, 3, 1));
 		
-		when(legoRepository.getLegos()).thenReturn(legos);
+		when(legoRepository.getAllLegos()).thenReturn(legos);
 		
 		legoController.allLegos();
 		verify(legoView).showAllLegos(legos);
@@ -50,9 +50,18 @@ public class LegoControllerTest {
 		List<KitEntity> kits = new ArrayList<KitEntity>();
 		kits.add(new KitEntity(0, "6383", ""));
 
-		when(kitRepository.getKits()).thenReturn(kits);
+		when(kitRepository.getAllKits()).thenReturn(kits);
 
 		legoController.allKits();
 		verify(legoView).showAllKits(kits);
+	}
+	
+	@Test
+	public void testAddKit() {
+		KitEntity k = new KitEntity(0, "n", "p");
+		when(kitRepository.add("n", "p")).thenReturn(k);
+
+		legoController.addKit("n", "p");
+		verify(legoView).onAddedKit(k);
 	}
 }
