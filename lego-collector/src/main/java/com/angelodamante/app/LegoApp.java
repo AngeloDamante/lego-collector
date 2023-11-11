@@ -38,7 +38,7 @@ public class LegoApp implements Callable<Void> {
 	private String collectionLegosName = "legos";
 
 	public static void main(String[] args) {
-		new CommandLine(new LegoSwingView()).execute(args);
+		new CommandLine(new LegoApp()).execute(args);
 	}
 
 	@Override
