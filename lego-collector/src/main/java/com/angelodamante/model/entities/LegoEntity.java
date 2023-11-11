@@ -1,4 +1,4 @@
-package com.angelodamante.app.model;
+package com.angelodamante.model.entities;
 
 public class LegoEntity {
 	private String name;

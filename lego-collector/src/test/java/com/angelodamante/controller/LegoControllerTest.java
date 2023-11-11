@@ -1,4 +1,4 @@
-package com.angelodamante.app.controller;
+package com.angelodamante.controller;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,9 +9,10 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.angelodamante.app.model.LegoEntity;
-import com.angelodamante.app.repository.LegoRepository;
-import com.angelodamante.app.view.LegoView;
+import com.angelodamante.controller.LegoController;
+import com.angelodamante.model.entities.LegoEntity;
+import com.angelodamante.model.repository.LegoRepository;
+import com.angelodamante.view.LegoView;
 
 public class LegoControllerTest {
 

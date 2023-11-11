@@ -1,10 +1,10 @@
-package com.angelodamante.app.launcher;
+package com.angelodamante.app;
 
 import java.awt.EventQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.angelodamante.app.view.LegoSwingView;
+import com.angelodamante.view.LegoSwingView;
 
 public class LegoApp {
 	/**

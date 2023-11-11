@@ -140,16 +140,14 @@
 					<version>${pit.version}</version>
 					<configuration>
 						<excludedClasses>
-							<param>com.angelodamante.app.model.*</param>
-							<param>com.angelodamante.app.launcher.*</param>
-							<param>com.angelodamante.app.view.*</param>
+							<param>com.angelodamante.app.*</param>
+							<param>com.angelodamante.model.entities.*</param>
+							<param>com.angelodamante.view.*</param>
 						</excludedClasses>
 						<targetTests>
-							<param>com.angelodamante.app.*</param>
+							<param>com.angelodamante.controller.*</param>
+							<param>com.angelodamante.model.repository.*</param>
 						</targetTests>
-						<excludedTestClasses>
-							<param>com.angelodamante.app.view.LegoSwingViewTest</param>
-						</excludedTestClasses>
 						<mutators>
 							<mutator>DEFAULTS</mutator>
 						</mutators>

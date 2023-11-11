@@ -1,11 +1,11 @@
-package com.angelodamante.app.view;
+package com.angelodamante.view;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.angelodamante.app.model.LegoEntity;
+import com.angelodamante.model.entities.LegoEntity;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;

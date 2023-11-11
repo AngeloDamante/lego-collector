@@ -1,10 +1,10 @@
-package com.angelodamante.app.controller;
+package com.angelodamante.controller;
 
 import java.util.List;
 
-import com.angelodamante.app.model.LegoEntity;
-import com.angelodamante.app.repository.LegoRepository;
-import com.angelodamante.app.view.LegoView;
+import com.angelodamante.model.entities.LegoEntity;
+import com.angelodamante.model.repository.LegoRepository;
+import com.angelodamante.view.LegoView;
 
 public class LegoController {
 	private LegoRepository legoRepository;

@@ -1,10 +1,11 @@
-package com.angelodamante.app.view;
+package com.angelodamante.view;
 
 import org.assertj.swing.junit.runner.GUITestRunner;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.runner.RunWith;
 
-import com.angelodamante.app.model.LegoEntity;
+import com.angelodamante.model.entities.LegoEntity;
+import com.angelodamante.view.LegoSwingView;
 
 import org.junit.Test;
 
