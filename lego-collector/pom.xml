@@ -35,8 +35,8 @@
 
 		<!-- sonar -->
 		<sonar.coverage.exclusions>
-			**/model/*.*,
-			**/app/launcher/*.*
+			**/model/entities/*.*,
+			**/app/*.*
 		</sonar.coverage.exclusions>
 		<sonar.junit.reportPaths>
 			${project.build.directory}/surefire-reports,
@@ -134,8 +134,8 @@
 					</executions>
 					<configuration>
 						<excludes>
-							<exclude> **/model/*.* </exclude>
-							<exclude> **/app/launcher/*.* </exclude>
+							<exclude> **/model/entities/*.* </exclude>
+							<exclude> **/app/*.* </exclude>
 						</excludes>
 					</configuration>
 				</plugin>
@@ -168,7 +168,7 @@
 						<mutators>
 							<mutator>DEFAULTS</mutator>
 						</mutators>
-						<mutationThreshold>80</mutationThreshold>
+						<mutationThreshold>100</mutationThreshold>
 					</configuration>
 				</plugin>
 				<plugin>
