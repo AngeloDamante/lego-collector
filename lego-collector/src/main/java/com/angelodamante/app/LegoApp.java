@@ -52,6 +52,7 @@ public class LegoApp implements Callable<Void> {
 				LegoController legoController = new LegoController(legoRepository, kitRepository, legoView);
 				legoView.setController(legoController);
 				legoView.setVisible(true);
+				legoController.allKits();
 			} catch (Exception e) {
 				Logger.getLogger(LegoApp.class.getName()).log(Level.SEVERE, "Exception", e);
 			}
