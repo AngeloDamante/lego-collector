@@ -42,7 +42,7 @@
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
-		<sonar.issue.ignore.multicriteria>e11,e12</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e11,e12.e13.e14</sonar.issue.ignore.multicriteria>
 
 		<sonar.issue.ignore.multicriteria.e11.ruleKey>
 			java:S110
@@ -50,13 +50,34 @@
 		<sonar.issue.ignore.multicriteria.e11.resourceKey>
 			**/*.java
 		</sonar.issue.ignore.multicriteria.e11.resourceKey>
-
+		<!-- "Local variable and method parameter names should comply with a naming convention" -->
 		<sonar.issue.ignore.multicriteria.e12.ruleKey>
 			java:S117
 		</sonar.issue.ignore.multicriteria.e12.ruleKey>
 		<sonar.issue.ignore.multicriteria.e12.resourceKey>
 			**/LegoSwingView.java
 		</sonar.issue.ignore.multicriteria.e12.resourceKey>
+		
+		<!-- "Tests should include assertions": -->
+		<sonar.issue.ignore.multicriteria.e13.ruleKey>
+			java:S2699
+		</sonar.issue.ignore.multicriteria.e13.ruleKey>
+		<sonar.issue.ignore.multicriteria.e13.resourceKey>
+			**/IotSwingViewTest.java
+		</sonar.issue.ignore.multicriteria.e13.resourceKey>
+
+		<!-- "Tests classes should comply with a naming convention" -->
+		<sonar.issue.ignore.multicriteria.e14.ruleKey>
+			java:S3577
+		</sonar.issue.ignore.multicriteria.e14.ruleKey>
+		<sonar.issue.ignore.multicriteria.e14.resourceKey>
+			**/*E2E.java
+		</sonar.issue.ignore.multicriteria.e14.resourceKey>
+
+		<sonar.junit.reportPaths>
+			${project.build.directory}/surefire-reports,
+			${project.build.directory}/failsafe-reports
+		</sonar.junit.reportPaths>
 	</properties>
 
 	<dependencies>
