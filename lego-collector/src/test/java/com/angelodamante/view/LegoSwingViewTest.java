@@ -42,7 +42,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	
 	@Test
 	public void testGetLegos() {
-		LegoEntity lego = new LegoEntity("foo");
+		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
 		GuiActionRunner.execute(() -> legoSwingView.showAllLegos(Arrays.asList(lego)));
 		String[] legos = window.list("listLegos").contents();
 		assertThat(legos).containsExactly(lego.toString());

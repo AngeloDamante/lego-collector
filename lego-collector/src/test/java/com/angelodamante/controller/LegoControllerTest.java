@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.angelodamante.controller.LegoController;
 import com.angelodamante.model.entities.LegoEntity;
 import com.angelodamante.model.repository.LegoRepository;
 import com.angelodamante.view.LegoView;
@@ -34,7 +33,7 @@ public class LegoControllerTest {
 	@Test
 	public void testGetLegosOne() {
 		List<LegoEntity> legos = new ArrayList<LegoEntity>();
-		legos.add(new LegoEntity("foo"));
+		legos.add(new LegoEntity(0, "6383", 8, 3, 1));
 
 		when(legoRepository.getLegos()).thenReturn(legos);
 

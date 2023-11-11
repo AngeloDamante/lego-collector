@@ -19,10 +19,11 @@ public class LegoMongoRepository {
 	}
 
 	private LegoEntity fromDocumentToLego(Document d) {
-		return new LegoEntity("" + d.get("name"));
+		return new LegoEntity(d.getInteger("id"), "" + d.get("productCode"), d.getInteger("buds"),
+				d.getInteger("quantity"), d.getInteger("kitId"));
 	}
 
-	public List<LegoEntity> getAllLegos() { 
+	public List<LegoEntity> getAllLegos() {
 		return StreamSupport.stream(legoCollection.find().spliterator(), false).map(this::fromDocumentToLego)
 				.collect(Collectors.toList());
 	}
