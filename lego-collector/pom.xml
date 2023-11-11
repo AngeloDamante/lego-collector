@@ -88,6 +88,23 @@
 			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>de.bwaldvogel</groupId>
+			<artifactId>mongo-java-server</artifactId>
+			<version>1.11.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<version>3.12.7</version>
+			<artifactId>mongo-java-driver</artifactId>
+		</dependency>
+		<dependency>
+			<!-- required to see Mongo Java Driver logs -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
