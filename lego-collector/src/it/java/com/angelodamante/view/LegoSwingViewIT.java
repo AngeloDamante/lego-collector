@@ -1,13 +1,8 @@
 package com.angelodamante.view;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 
 import java.net.InetSocketAddress;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
@@ -26,11 +21,8 @@ import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 import com.angelodamante.model.repository.KitMongoRepository;
 import com.angelodamante.model.repository.LegoMongoRepository;
-import com.angelodamante.model.repository.LegoRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 
 import de.bwaldvogel.mongo.MongoServer;
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
@@ -101,7 +93,7 @@ public class LegoSwingViewIT extends AssertJSwingJUnitTestCase {
 
 		assertThat(window.list("listLegos").contents()).containsExactly(lego1.toString(), lego2.toString());
 	}
-	
+
 	@Test
 	public void testShowAllKits() {
 		KitEntity kit1 = new KitEntity(0, "6383", "n1");
@@ -179,7 +171,7 @@ public class LegoSwingViewIT extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withName("btnDeleteLego")).click();
 		assertThat(window.list("listLegos").contents()).isEmpty();
 	}
-	
+
 	@Test
 	public void testDeleteKit() {
 		KitEntity kit = new KitEntity(0, "6383", "n");
@@ -189,7 +181,7 @@ public class LegoSwingViewIT extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withName("btnDeleteKit")).click();
 		assertThat(window.list("listKits").contents()).isEmpty();
 	}
-	
+
 	@Test
 	public void testUpdateKit() {
 		KitEntity kit = new KitEntity(0, "6383", "n");
@@ -198,29 +190,28 @@ public class LegoSwingViewIT extends AssertJSwingJUnitTestCase {
 		window.list("listKits").selectItem(0);
 		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText("p");
 		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n");
-		
+
 		window.button(JButtonMatcher.withName("btnUpdateKit")).click();
-		
-		assertThat(window.list("listKits").contents()).containsExactly(new KitEntity(0,  "6383p", "nn").toString());
+
+		assertThat(window.list("listKits").contents()).containsExactly(new KitEntity(0, "6383p", "nn").toString());
 	}
-	
+
 	@Test
 	public void testSearchLegoByBudsSuccess() {
 		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
 		legoMongoRepository.add("6383", 8, 3, 1);
 		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("8");
 		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
-		
+
 		assertThat(window.list("listSearchedLegos").contents()).containsExactly(lego.toString());
 	}
-	
+
 	@Test
 	public void testSearchLegoByBudsError() {
-		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
 		legoMongoRepository.add("6383", 8, 3, 1);
 		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("aa");
 		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
-		
+
 		assertThat(window.label(JLabelMatcher.withName("lblErrorLog")).text()).contains("Buds", "Integer");
 	}
 }

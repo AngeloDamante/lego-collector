@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
-import javax.swing.DefaultListModel;
-
 import java.util.Arrays;
 
 import org.assertj.swing.core.matcher.JButtonMatcher;
@@ -177,8 +175,8 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Test
 	public void testAddNewLegoBtnIsDisabledWhenNoProductCode() {
-		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("");
 		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("");
 		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
 
 		KitEntity kit = new KitEntity(0, "6383", "");
@@ -190,9 +188,9 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Test
 	public void testAddNewLegoBtnIsDisabledWhenNoBuds() {
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
 		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
 		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("");
-		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
 
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
@@ -203,9 +201,9 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 
 	@Test
 	public void testAddNewLegoBtnIsDisabledWhenNoQuantity() {
-		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
 		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("1");
 		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("");
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
 
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
@@ -217,8 +215,8 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	@Test
 	public void testAddNewLegoBtnIsDisabledWhenNoKitIsSelected() {
 		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
-		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("1");
 		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("2");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("1");
 
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
@@ -258,7 +256,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("listLegos").contents();
 		assertThat(listContents).isEmpty();
 	}
-	
+
 	@Test
 	public void testOnKitSelectedShouldShowLegos() {
 		KitEntity kit = new KitEntity(0, "6383", "");
@@ -266,7 +264,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("listKits").selectItem(0);
 		verify(legoController).legosOfKitId(kit.getId());
 	}
-	
+
 	@Test
 	public void testWhenLegoIsNotSelectedSearchButtonIsDisabled() {
 		assertFalse(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
@@ -277,14 +275,14 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("3");
 		assertTrue(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
 	}
-	
+
 	@Test
 	public void testSearchButton() {
 		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("3");
 		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
 		verify(legoController).legosByBuds("3");
 	}
-	
+
 	@Test
 	public void testShowAllSearchedLegos() {
 		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
@@ -292,12 +290,12 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] legos = window.list("listSearchedLegos").contents();
 		assertThat(legos).containsExactly(lego.toString());
 	}
-	
+
 	@Test
 	public void testUpdateKitBtnIsDisabledWhenNoKitsAreSelected() {
 		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}
-	
+
 	@Test
 	public void testUpdateKitBtnIsDisabledWhenNoProductCode() {
 		KitEntity kit = new KitEntity(0, "6383", "n");
@@ -307,7 +305,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText(" ");
 		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}
-	
+
 	@Test
 	public void testUpdateKitBtnIsDisabledWhenNoName() {
 		KitEntity kit = new KitEntity(0, "6383", "n");
@@ -317,7 +315,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText(" ");
 		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}
-	
+
 	@Test
 	public void testUpdateKitBtnIsEnabled() {
 		KitEntity kit = new KitEntity(0, "6383", "n");
@@ -327,7 +325,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n");
 		assertTrue(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}
-	
+
 	@Test
 	public void testUpdateKitBtnCallsController() {
 		KitEntity kit = new KitEntity(0, "6383", "n");

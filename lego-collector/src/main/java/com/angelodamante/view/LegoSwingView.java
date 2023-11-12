@@ -5,8 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.angelodamante.controller.LegoController;
 import com.angelodamante.model.entities.KitEntity;
@@ -15,12 +13,10 @@ import com.angelodamante.model.entities.LegoEntity;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.JTextField;
@@ -29,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 public class LegoSwingView extends JFrame implements LegoView {
 
@@ -48,7 +45,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private JScrollPane scrollPaneKit;
 	private JScrollPane scrollPaneSearch;
 
-	private LegoController legoController;
+	private transient LegoController legoController;
 	private JButton btnDeleteKit;
 	private JButton btnAddLego;
 	private JLabel lblProductCodeLego;
@@ -72,7 +69,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 	 */
 	public LegoSwingView() {
 		setTitle("Lego Collector");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 618);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -235,23 +232,19 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_scrollPaneKit.gridy = 4;
 		contentPane.add(scrollPaneKit, gbc_scrollPaneKit);
 		listKits = new JList<>(listKitsModel);
-		listKits.addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (!listKits.getValueIsAdjusting()) {
-					return;
-				}
-				btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
-				updateAddLegoButtonEnable();
-				KitEntity kit = listKits.getSelectedValue();
-				if (kit != null) {
-					legoController.legosOfKitId(kit.getId());
-					txtNewKitProductCode.setText(kit.getProductCode().toString());
-					txtNewKitName.setText(kit.getName().toString());
-				}
-				updateBtnUpdateKitEnabled();
+		listKits.addListSelectionListener(listSelectionEvent -> {
+			if (!listKits.getValueIsAdjusting()) {
+				return;
 			}
+			btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
+			updateAddLegoButtonEnable();
+			KitEntity kit = listKits.getSelectedValue();
+			if (kit != null) {
+				legoController.legosOfKitId(kit.getId());
+				txtNewKitProductCode.setText(kit.getProductCode());
+				txtNewKitName.setText(kit.getName());
+			}
+			updateBtnUpdateKitEnabled();
 		});
 		listKits.setName("listKits");
 		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -8,14 +8,14 @@ import java.util.stream.StreamSupport;
 
 import org.bson.Document;
 
-import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
 public class LegoMongoRepository implements LegoRepository {
-
+	
+	private static final String KIT_ID_COLUMN = "kitId";
 	private MongoCollection<Document> legoCollection;
 
 	public LegoMongoRepository(MongoClient mongoClient, String dbName, String collectionName) {
@@ -24,7 +24,7 @@ public class LegoMongoRepository implements LegoRepository {
 
 	private LegoEntity fromDocumentToLego(Document d) {
 		return new LegoEntity(d.getInteger("id"), "" + d.get("productCode"), d.getInteger("buds"),
-				d.getInteger("quantity"), d.getInteger("kitId"));
+				d.getInteger("quantity"), d.getInteger(KIT_ID_COLUMN));
 	}
 
 	public List<LegoEntity> getAllLegos() {
@@ -46,7 +46,7 @@ public class LegoMongoRepository implements LegoRepository {
 
 	private Document fromLegoToDocument(LegoEntity le) {
 		return new Document().append("id", le.getId()).append("productCode", le.getProductCode())
-				.append("buds", le.getBuds()).append("quantity", le.getQuantity()).append("kitId", le.getKitId());
+				.append("buds", le.getBuds()).append("quantity", le.getQuantity()).append(KIT_ID_COLUMN, le.getKitId());
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class LegoMongoRepository implements LegoRepository {
 
 	@Override
 	public List<LegoEntity> getLegosByKitId(Integer kitId) {
-		return StreamSupport.stream(legoCollection.find(Filters.eq("kitId", kitId)).spliterator(), false).map(this::fromDocumentToLego)
+		return StreamSupport.stream(legoCollection.find(Filters.eq(KIT_ID_COLUMN, kitId)).spliterator(), false).map(this::fromDocumentToLego)
 				.collect(Collectors.toList());
 	}
 	

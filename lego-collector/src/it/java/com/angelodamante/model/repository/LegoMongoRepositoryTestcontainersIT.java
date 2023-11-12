@@ -11,7 +11,6 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.testcontainers.containers.GenericContainer;
 
-import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;

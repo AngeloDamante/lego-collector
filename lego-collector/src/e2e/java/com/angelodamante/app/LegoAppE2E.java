@@ -2,7 +2,6 @@ package com.angelodamante.app;
 
 import static org.assertj.swing.launcher.ApplicationLauncher.*;
 
-import java.awt.Window;
 import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
@@ -14,7 +13,6 @@ import org.assertj.swing.core.GenericTypeMatcher;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.core.matcher.JTextComponentMatcher;
-import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
@@ -169,7 +167,7 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withName("btnAddLego")).click();
 		assertThat(window.list("listLegos").contents()).anySatisfy(e -> assertThat(e).contains("p2p2"));
 	}
-	
+
 	@Test
 	@GUITest
 	public void testAddLegoErrorQuantity() {
@@ -180,7 +178,7 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withName("btnAddLego")).click();
 		assertThat(window.label(JLabelMatcher.withName("lblErrorLog")).text()).contains("Quantity", "Integer");
 	}
-	
+
 	@Test
 	@GUITest
 	public void testAddLegoErrorBuds() {
@@ -195,11 +193,13 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 	@Test
 	@GUITest
 	public void testSearchLegosByBudsSuccess() {
-		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText(LEGO_FIXTURE_1_OF_KIT_1_BUDS.toString());
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds"))
+				.enterText(LEGO_FIXTURE_1_OF_KIT_1_BUDS.toString());
 		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
-		assertThat(window.list("listSearchedLegos").contents()).anySatisfy(e -> assertThat(e).contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
+		assertThat(window.list("listSearchedLegos").contents())
+				.anySatisfy(e -> assertThat(e).contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
 	}
-	
+
 	@Test
 	@GUITest
 	public void testSearchLegosByBudsErrorNotABud() {

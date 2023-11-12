@@ -6,7 +6,7 @@ public abstract class Entity {
 	private Integer id;
 	private String productCode;
 
-	public Entity(Integer id, String productCode) {
+	protected Entity(Integer id, String productCode) {
 		super();
 		this.id = id;
 		this.productCode = productCode;
