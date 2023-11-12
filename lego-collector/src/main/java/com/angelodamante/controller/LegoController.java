@@ -38,4 +38,9 @@ public class LegoController {
 		kitRepository.remove(kit);
 		legoView.onDeletedKit(kit);
 	}
+
+	public void addLego(String productCode, Integer buds, Integer quantity, Integer kitId) {
+		LegoEntity le = legoRepository.add(productCode, buds, quantity, kitId);
+		legoView.onAddedLego(le);
+	}
 }

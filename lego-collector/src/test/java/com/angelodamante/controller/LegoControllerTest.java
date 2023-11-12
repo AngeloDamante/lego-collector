@@ -73,5 +73,12 @@ public class LegoControllerTest {
 		verify(kitRepository).remove(k);
 	}
 	
+	@Test
+	public void testAddLego() {
+		LegoEntity le = new LegoEntity(0, "p", 1, 2, 1);
+		when(legoRepository.add("p", 1, 2, 1)).thenReturn(le);
+		legoController.addLego("p", 1, 2, 1);
+		verify(legoView).onAddedLego(le);
+	}
 	
 }

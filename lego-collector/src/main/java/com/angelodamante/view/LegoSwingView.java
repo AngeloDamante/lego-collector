@@ -188,4 +188,9 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listKitsModel.removeElement(kit);
 	}
 
+	@Override
+	public void onAddedLego(LegoEntity legoEntity) {
+		listLegosModel.addElement(legoEntity);
+	}
+
 }
