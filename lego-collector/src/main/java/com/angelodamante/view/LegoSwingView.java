@@ -63,11 +63,13 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private JTextField txtNewKitProductCode;
 	private JTextField txtNewKitName;
 	private JButton btnUpdateKit;
+	private JSeparator separatorRight;
 
 	/**
 	 * Create the frame.
 	 */
 	public LegoSwingView() {
+		setResizable(false);
 		setTitle("Lego Collector");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 618);
@@ -156,6 +158,14 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(btnUpdateKit, gbc_btnUpdateKit);
 		btnUpdateKit.addActionListener(e -> legoController.updateKit(txtNewKitProductCode.getText(),
 				txtNewKitName.getText(), listKits.getSelectedValue()));
+		
+		separatorRight = new JSeparator();
+		GridBagConstraints gbc_separatorRight = new GridBagConstraints();
+		gbc_separatorRight.fill = GridBagConstraints.HORIZONTAL;
+		gbc_separatorRight.insets = new Insets(0, 0, 5, 0);
+		gbc_separatorRight.gridx = 3;
+		gbc_separatorRight.gridy = 6;
+		contentPane.add(separatorRight, gbc_separatorRight);
 
 		txtSearchBuds = new JTextField();
 		GridBagConstraints gbc_txtSearchBuds = new GridBagConstraints();
@@ -197,9 +207,11 @@ public class LegoSwingView extends JFrame implements LegoView {
 		separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		GridBagConstraints gbc_separator = new GridBagConstraints();
-		gbc_separator.insets = new Insets(0, 0, 5, 5);
+		gbc_separator.fill = GridBagConstraints.VERTICAL;
+		gbc_separator.gridheight = 16;
+		gbc_separator.insets = new Insets(0, 0, 0, 5);
 		gbc_separator.gridx = 2;
-		gbc_separator.gridy = 2;
+		gbc_separator.gridy = 0;
 		contentPane.add(separator, gbc_separator);
 
 		btnSearchLegos = new JButton("Search Legos with buds");
@@ -264,8 +276,10 @@ public class LegoSwingView extends JFrame implements LegoView {
 
 		separatorKits = new JSeparator();
 		GridBagConstraints gbc_separatorKits = new GridBagConstraints();
+		gbc_separatorKits.gridwidth = 2;
+		gbc_separatorKits.fill = GridBagConstraints.HORIZONTAL;
 		gbc_separatorKits.insets = new Insets(0, 0, 5, 5);
-		gbc_separatorKits.gridx = 1;
+		gbc_separatorKits.gridx = 0;
 		gbc_separatorKits.gridy = 6;
 		contentPane.add(separatorKits, gbc_separatorKits);
 
