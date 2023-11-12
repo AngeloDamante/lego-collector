@@ -158,7 +158,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(btnUpdateKit, gbc_btnUpdateKit);
 		btnUpdateKit.addActionListener(e -> legoController.updateKit(txtNewKitProductCode.getText(),
 				txtNewKitName.getText(), listKits.getSelectedValue()));
-		
+
 		separatorRight = new JSeparator();
 		GridBagConstraints gbc_separatorRight = new GridBagConstraints();
 		gbc_separatorRight.fill = GridBagConstraints.HORIZONTAL;
