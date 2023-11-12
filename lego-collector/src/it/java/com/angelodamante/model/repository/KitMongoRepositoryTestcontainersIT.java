@@ -62,7 +62,7 @@ public class KitMongoRepositoryTestcontainersIT {
 				new KitEntity(1, "p2", "n"));
 	}
 
-	private List<KitEntity> readAllKits() {
+	private List<KitEntity> readAllKitsFromDatabase() {
 		return StreamSupport.stream(kitCollection.find().spliterator(), false)
 				.map(d -> new KitEntity(d.getInteger("id"), "" + d.get("productCode"), "" + d.get("name")))
 				.collect(Collectors.toList());
@@ -73,13 +73,21 @@ public class KitMongoRepositoryTestcontainersIT {
 		kitMongoRepository.add("p1", "n");
 		kitMongoRepository.add("p2", "n");
 
-		assertThat(readAllKits()).containsExactly(new KitEntity(0, "p1", "n"), new KitEntity(1, "p2", "n"));
+		assertThat(readAllKitsFromDatabase()).containsExactly(new KitEntity(0, "p1", "n"), new KitEntity(1, "p2", "n"));
 	}
 
 	@Test
 	public void testDeleteKit() {
 		addTestKitToDatabase(1, "p1", "n1");
 		kitMongoRepository.remove(new KitEntity(1, "p1", "n1"));
-		assertThat(readAllKits()).isEmpty();
+		assertThat(readAllKitsFromDatabase()).isEmpty();
+	}
+	
+	@Test
+	public void testUpdateKit() {
+		addTestKitToDatabase(1, "p1", "n1");
+		KitEntity k = new KitEntity(1, "pNew", "nNew");
+		kitMongoRepository.update(k);
+		assertThat(readAllKitsFromDatabase()).containsExactly(k);
 	}
 }
