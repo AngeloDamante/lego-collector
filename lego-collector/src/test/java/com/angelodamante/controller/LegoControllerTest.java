@@ -33,14 +33,14 @@ public class LegoControllerTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	public void testGetLegosOne() {
 		List<LegoEntity> legos = new ArrayList<LegoEntity>();
 		legos.add(new LegoEntity(0, "6383", 8, 3, 1));
-		
+
 		when(legoRepository.getAllLegos()).thenReturn(legos);
-		
+
 		legoController.allLegos();
 		verify(legoView).showAllLegos(legos);
 	}
@@ -55,16 +55,16 @@ public class LegoControllerTest {
 		legoController.allKits();
 		verify(legoView).showAllKits(kits);
 	}
-	
+
 	@Test
 	public void testAddKit() {
 		KitEntity k = new KitEntity(0, "n", "p");
 		when(kitRepository.add("n", "p")).thenReturn(k);
-		
+
 		legoController.addKit("n", "p");
 		verify(legoView).onAddedKit(k);
 	}
-	
+
 	@Test
 	public void testDeleteKit() {
 		KitEntity k = new KitEntity(0, "n", "p");
@@ -72,13 +72,36 @@ public class LegoControllerTest {
 		verify(legoView).onDeletedKit(k);
 		verify(kitRepository).remove(k);
 	}
-	
+
 	@Test
-	public void testAddLego() {
+	public void testAddLegoWhenAllFieldsAreOk() {
 		LegoEntity le = new LegoEntity(0, "p", 1, 2, 1);
 		when(legoRepository.add("p", 1, 2, 1)).thenReturn(le);
-		legoController.addLego("p", 1, 2, 1);
+		legoController.addLego("p", "1", "2", new KitEntity(1, "p", "m"));
 		verify(legoView).onAddedLego(le);
 	}
-	
+
+	@Test
+	public void testAddLegoWhenQuantityIsNotInteger() {
+		LegoEntity le = new LegoEntity(0, "p", 1, 2, 1);
+		legoController.addLego("p", "1", "aaa", new KitEntity(1, "p", "m"));
+		verify(legoView).showError("Quantity Should Be Integer");
+		verify(legoView, never()).onAddedLego(le);
+	}
+
+	@Test
+	public void testAddLegoWhenBudsIsNotInteger() {
+		LegoEntity le = new LegoEntity(0, "p", 1, 2, 1);
+		legoController.addLego("p", "aaa", "2", new KitEntity(1, "p", "m"));
+		verify(legoView).showError("Buds Should Be Integer");
+		verify(legoView, never()).onAddedLego(le);
+	}
+
+	@Test
+	public void testAddLegoWhenKitIsNull() {
+		LegoEntity le = new LegoEntity(0, "p", 1, 2, 1);
+		legoController.addLego("p", "1", "2", null);
+		verify(legoView).showError("No kit Selected");
+		verify(legoView, never()).onAddedLego(le);
+	}
 }

@@ -142,4 +142,85 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("listLegos").contents();
 		assertThat(listContents).containsExactly(le.toString());
 	}
+	
+	@Test
+	public void testShowErrorDisplaysError() {
+		String message = "Error";
+		GuiActionRunner.execute(() -> legoSwingView.showError(message));
+		window.label(JLabelMatcher.withName("lblErrorLog")).requireText(message);
+	}
+	
+	@Test
+	public void testAddNewLegoBtnIsEnabled() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		window.button(JButtonMatcher.withName("btnAddLego")).requireEnabled();
+	}
+	
+	@Test
+	public void testAddNewLegoCallsController() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+		
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		
+		window.button(JButtonMatcher.withName("btnAddLego")).click();
+		verify(legoController).addLego("p", "2", "1", kit);
+	}
+	
+	@Test
+	public void testAddNewLegoBtnIsDisabledWhenNoProductCode() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+		
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		
+		window.button(JButtonMatcher.withName("btnAddLego")).requireDisabled();
+	}
+	@Test
+	public void testAddNewLegoBtnIsDisabledWhenNoBuds() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+		
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		
+		window.button(JButtonMatcher.withName("btnAddLego")).requireDisabled();
+	}
+	@Test
+	public void testAddNewLegoBtnIsDisabledWhenNoQuantity() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("1");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("");
+		
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		
+		window.button(JButtonMatcher.withName("btnAddLego")).requireDisabled();
+	}
+	@Test
+	public void testAddNewLegoBtnIsDisabledWhenNoKitIsSelected() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("1");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("2");
+		
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		
+		window.button(JButtonMatcher.withName("btnAddLego")).requireDisabled();
+	}
+	
 }

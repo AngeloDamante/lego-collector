@@ -39,8 +39,30 @@ public class LegoController {
 		legoView.onDeletedKit(kit);
 	}
 
-	public void addLego(String productCode, Integer buds, Integer quantity, Integer kitId) {
-		LegoEntity le = legoRepository.add(productCode, buds, quantity, kitId);
+	public void addLego(String productCode, String buds, String quantity, KitEntity kit) {
+		Integer budsParsed = tryIntegerParsing(buds);
+		if (budsParsed == null) {
+			legoView.showError("Buds Should Be Integer");
+			return;
+		}
+		Integer quantityParsed = tryIntegerParsing(quantity);
+		if (quantityParsed == null) {
+			legoView.showError("Quantity Should Be Integer");
+			return;
+		}
+		if (kit == null) {
+			legoView.showError("No kit Selected");
+			return;
+		}
+		LegoEntity le = legoRepository.add(productCode, budsParsed, quantityParsed, kit.getId());
 		legoView.onAddedLego(le);
+	}
+	
+	private Integer tryIntegerParsing(String text) {
+		try {
+			return Integer.parseInt(text);
+		} catch(NumberFormatException e) {
+			return null;
+		}
 	}
 }

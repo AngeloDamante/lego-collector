@@ -41,6 +41,14 @@ public class LegoSwingView extends JFrame implements LegoView {
 
 	private LegoController legoController;
 	private JButton btnDeleteKit;
+	private JButton btnAddLego;
+	private JLabel lblProductCodeLego;
+	private JLabel lblBudsLego;
+	private JLabel lblQuantityLego;
+	private JTextField txtProductCodeLego;
+	private JTextField txtBudsLego;
+	private JTextField txtQuantityLego;
+	private JLabel lblErrorLog;
 
 	/**
 	 * Create the frame.
@@ -55,9 +63,10 @@ public class LegoSwingView extends JFrame implements LegoView {
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
-		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_contentPane.columnWeights = new double[] { 0, 1.0, Double.MIN_VALUE };
-		gbl_contentPane.rowWeights = new double[] { 0, 0, 0, 0, 1.0, 0, 0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0, 0, 0, 0, 1.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 1.0, 0.0,
+				Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 
 		JLabel lblProductCode = new JLabel("production code");
@@ -130,36 +139,127 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneLego.setViewportView(listLegos);
 
+		lblProductCodeLego = new JLabel("product code");
+		GridBagConstraints gbc_lblProductCodeLego = new GridBagConstraints();
+		gbc_lblProductCodeLego.anchor = GridBagConstraints.EAST;
+		gbc_lblProductCodeLego.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProductCodeLego.gridx = 0;
+		gbc_lblProductCodeLego.gridy = 5;
+		lblProductCodeLego.setName("lblProductCodeLego");
+		contentPane.add(lblProductCodeLego, gbc_lblProductCodeLego);
+
+		txtProductCodeLego = new JTextField();
+		GridBagConstraints gbc_txtProductCodeLego = new GridBagConstraints();
+		gbc_txtProductCodeLego.insets = new Insets(0, 0, 5, 0);
+		gbc_txtProductCodeLego.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtProductCodeLego.gridx = 1;
+		gbc_txtProductCodeLego.gridy = 5;
+		contentPane.add(txtProductCodeLego, gbc_txtProductCodeLego);
+		txtProductCodeLego.setName("txtProductCodeLego");
+		txtProductCodeLego.setColumns(10);
+		KeyAdapter keyAdapterAddLegoBtnEnabler = new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAddLegoButtonEnable();
+			}
+
+		};
+		txtProductCodeLego.addKeyListener(keyAdapterAddLegoBtnEnabler);
+
+		lblBudsLego = new JLabel("buds");
+		GridBagConstraints gbc_lblBudsLego = new GridBagConstraints();
+		gbc_lblBudsLego.anchor = GridBagConstraints.EAST;
+		gbc_lblBudsLego.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBudsLego.gridx = 0;
+		gbc_lblBudsLego.gridy = 6;
+		lblBudsLego.setName("lblBudsLego");
+		contentPane.add(lblBudsLego, gbc_lblBudsLego);
+
+		txtBudsLego = new JTextField();
+		GridBagConstraints gbc_txtBudsLego = new GridBagConstraints();
+		gbc_txtBudsLego.insets = new Insets(0, 0, 5, 0);
+		gbc_txtBudsLego.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtBudsLego.gridx = 1;
+		gbc_txtBudsLego.gridy = 6;
+		contentPane.add(txtBudsLego, gbc_txtBudsLego);
+		txtBudsLego.setName("txtBudsLego");
+		txtBudsLego.setColumns(10);
+		txtBudsLego.addKeyListener(keyAdapterAddLegoBtnEnabler);
+
+		lblQuantityLego = new JLabel("quantity");
+		GridBagConstraints gbc_lblQuantityLego = new GridBagConstraints();
+		gbc_lblQuantityLego.anchor = GridBagConstraints.EAST;
+		gbc_lblQuantityLego.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQuantityLego.gridx = 0;
+		gbc_lblQuantityLego.gridy = 7;
+		lblQuantityLego.setName("lblQuantityLego");
+		contentPane.add(lblQuantityLego, gbc_lblQuantityLego);
+
+		txtQuantityLego = new JTextField();
+		GridBagConstraints gbc_txtQuantityLego = new GridBagConstraints();
+		gbc_txtQuantityLego.insets = new Insets(0, 0, 5, 0);
+		gbc_txtQuantityLego.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtQuantityLego.gridx = 1;
+		gbc_txtQuantityLego.gridy = 7;
+		contentPane.add(txtQuantityLego, gbc_txtQuantityLego);
+		txtQuantityLego.setName("txtQuantityLego");
+		txtQuantityLego.setColumns(10);
+		txtQuantityLego.addKeyListener(keyAdapterAddLegoBtnEnabler);
+
+		lblErrorLog = new JLabel(" ");
+		GridBagConstraints gbc_lblErrorLog = new GridBagConstraints();
+		gbc_lblErrorLog.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorLog.gridx = 1;
+		gbc_lblErrorLog.gridy = 8;
+		lblErrorLog.setName("lblErrorLog");
+		contentPane.add(lblErrorLog, gbc_lblErrorLog);
+
+		btnAddLego = new JButton("Add lego");
+		GridBagConstraints gbc_btnAddLego = new GridBagConstraints();
+		gbc_btnAddLego.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAddLego.gridx = 1;
+		gbc_btnAddLego.gridy = 9;
+		btnAddLego.setName("btnAddLego");
+		contentPane.add(btnAddLego, gbc_btnAddLego);
+		btnAddLego.addActionListener(e -> legoController.addLego(txtProductCodeLego.getText(), txtBudsLego.getText(),
+				txtQuantityLego.getText(), listKits.getSelectedValue()));
+
 		scrollPaneKit = new JScrollPane();
 		GridBagConstraints gbc_scrollPaneKit = new GridBagConstraints();
 		gbc_scrollPaneKit.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPaneKit.fill = GridBagConstraints.BOTH;
 		gbc_scrollPaneKit.gridx = 1;
-		gbc_scrollPaneKit.gridy = 6;
+		gbc_scrollPaneKit.gridy = 10;
 		contentPane.add(scrollPaneKit, gbc_scrollPaneKit);
 
 		listKitsModel = new DefaultListModel<>();
 		listKits = new JList<>(listKitsModel);
 		listKits.addListSelectionListener(listSelectionEvent -> {
 			btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
+			updateAddLegoButtonEnable();
 		});
 		listKits.setName("listKits");
 		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneKit.setViewportView(listKits);
-		
+
 		btnDeleteKit = new JButton("Delete Kit");
 		btnDeleteKit.setEnabled(false);
 		GridBagConstraints gbc_btnDeleteKit = new GridBagConstraints();
+		gbc_btnDeleteKit.insets = new Insets(0, 0, 5, 0);
 		gbc_btnDeleteKit.gridx = 1;
-		gbc_btnDeleteKit.gridy = 7;
+		gbc_btnDeleteKit.gridy = 11;
 		btnDeleteKit.setName("btnDeleteKit");
 		contentPane.add(btnDeleteKit, gbc_btnDeleteKit);
 		btnDeleteKit.addActionListener(e -> legoController.removeKit(listKits.getSelectedValue()));
 
-		
-
 	}
 
+	private void updateAddLegoButtonEnable() {
+		btnAddLego.setEnabled(
+				!txtProductCodeLego.getText().trim().isEmpty() && !txtQuantityLego.getText().trim().isEmpty()
+						&& !txtBudsLego.getText().trim().isEmpty() && listKits.getSelectedIndex() != -1);
+	} 
+	
 	private void btnAddKitPressed() {
 		legoController.addKit(txtProductCode.getText(), txtName.getText());
 	}
@@ -191,6 +291,11 @@ public class LegoSwingView extends JFrame implements LegoView {
 	@Override
 	public void onAddedLego(LegoEntity legoEntity) {
 		listLegosModel.addElement(legoEntity);
+	}
+
+	@Override
+	public void showError(String message) {
+		lblErrorLog.setText(message);
 	}
 
 }

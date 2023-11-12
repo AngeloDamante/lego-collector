@@ -15,4 +15,6 @@ public interface LegoView {
 	public void onDeletedKit(KitEntity kit);
 
 	public void onAddedLego(LegoEntity legoEntity);
+
+	public void showError(String string);
 }
