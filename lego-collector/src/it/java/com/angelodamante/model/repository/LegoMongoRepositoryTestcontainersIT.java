@@ -62,4 +62,20 @@ public class LegoMongoRepositoryTestcontainersIT {
 				new LegoEntity(1, "0451", 3, 2, 1));
 	}
 
+	public List<LegoEntity> readAllLegos() {
+		return StreamSupport.stream(legoCollection.find().spliterator(), false)
+				.map(d -> new LegoEntity(d.getInteger("id"), "" + d.get("productCode"), d.getInteger("buds"),
+						d.getInteger("quantity"), d.getInteger("kitId")))
+				.collect(Collectors.toList());
+	}
+
+	@Test
+	public void testAddLego() {
+		legoMongoRepository.add("p1", 1, 1, 1);
+		legoMongoRepository.add("p2", 2, 2, 2);
+
+		assertThat(readAllLegos()).containsExactly(new LegoEntity(0, "p1", 1, 1, 1),
+				new LegoEntity(1, "p2", 2, 2, 2));
+	}
+
 }
