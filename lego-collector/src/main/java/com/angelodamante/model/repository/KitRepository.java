@@ -11,4 +11,6 @@ public interface KitRepository {
 	public KitEntity add(String productCode, String name);
 
 	public void remove(KitEntity kit);
+
+	public void update(KitEntity kit);
 }

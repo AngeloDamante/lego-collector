@@ -284,4 +284,50 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
 		verify(legoController).legosByBuds("3");
 	}
+	
+	@Test
+	public void testUpdateKitBtnIsDisabledWhenNoKitsAreSelected() {
+		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
+	}
+	
+	@Test
+	public void testUpdateKitBtnIsDisabledWhenNoProductCode() {
+		KitEntity kit = new KitEntity(0, "6383", "n");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).setText("");
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText(" ");
+		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
+	}
+	
+	@Test
+	public void testUpdateKitBtnIsDisabledWhenNoName() {
+		KitEntity kit = new KitEntity(0, "6383", "n");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).setText("");
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText(" ");
+		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
+	}
+	
+	@Test
+	public void testUpdateKitBtnIsEnabled() {
+		KitEntity kit = new KitEntity(0, "6383", "n");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n");
+		assertTrue(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
+	}
+	
+	@Test
+	public void testUpdateKitBtnCallsController() {
+		KitEntity kit = new KitEntity(0, "6383", "n");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n");
+		window.button(JButtonMatcher.withName("btnUpdateKit")).click();
+		verify(legoController).updateKit("6383p", "nn", kit);
+	}
 }

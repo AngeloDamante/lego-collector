@@ -105,7 +105,7 @@ public class LegoControllerTest {
 		verify(legoView).showError("No kit Selected");
 		verify(legoView, never()).onAddedLego(le);
 	}
-	
+
 	@Test
 	public void testDeleteLego() {
 		LegoEntity lego = new LegoEntity(0, "p", 1, 2, 1);
@@ -113,7 +113,7 @@ public class LegoControllerTest {
 		verify(legoView).onDeletedLego(lego);
 		verify(legoRepository).remove(lego);
 	}
-	
+
 	@Test
 	public void testlegosOfKitId() {
 		LegoEntity lego = new LegoEntity(0, "p", 1, 2, 1);
@@ -123,7 +123,7 @@ public class LegoControllerTest {
 		legoController.legosOfKitId(k.getId());
 		verify(legoView).showAllLegos(Arrays.asList(lego));
 	}
-	
+
 	@Test
 	public void testLegosByBuds() {
 		LegoEntity lego = new LegoEntity(0, "p", 1, 1, 1);
@@ -131,10 +131,20 @@ public class LegoControllerTest {
 		legoController.legosByBuds(lego.getBuds().toString());
 		verify(legoView).showAllSearchedLegos(Arrays.asList(lego));
 	}
+
 	@Test
 	public void testLegosByBudsWhenNotInteger() {
 		legoController.legosByBuds("snhfbvfhjsdfaf");
 		verify(legoView).showError("Buds Should Be Integer");
 	}
-	
+
+	@Test
+	public void testUpdateKit() {
+		List<KitEntity> kits = new ArrayList<KitEntity>();
+		kits.add(new KitEntity(0, "6383", ""));
+		when(kitRepository.getAllKits()).thenReturn(kits);
+		legoController.updateKit("5", "5", new KitEntity(0, "6", "7"));
+		verify(kitRepository).update(new KitEntity(0, "5", "5"));
+		verify(legoView).showAllKits(kits);
+	}
 }

@@ -85,4 +85,11 @@ public class LegoController {
 		List<LegoEntity> legos = legoRepository.getLegosByBuds(budsParsed);
 		legoView.showAllSearchedLegos(legos);
 	}
+
+	public void updateKit(String newProductCode, String newName, KitEntity kit) {
+		kit.setProductCode(newProductCode);
+		kit.setName(newName);
+		kitRepository.update(kit);
+		allKits();
+	}
 }

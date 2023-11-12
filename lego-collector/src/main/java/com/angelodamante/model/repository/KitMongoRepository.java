@@ -50,4 +50,10 @@ public class KitMongoRepository implements KitRepository {
 		kitCollection.deleteOne(Filters.eq("id", kit.getId()));
 	}
 
+	@Override
+	public void update(KitEntity kit) {
+		kitCollection.updateOne(Filters.eq("id", kit.getId()), new Document("$set", fromKitToDocument(kit)));
+	}
+
+
 }

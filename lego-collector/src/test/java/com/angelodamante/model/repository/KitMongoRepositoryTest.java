@@ -119,4 +119,19 @@ public class KitMongoRepositoryTest {
 		kitMongoRepository.remove(new KitEntity(1, "p1", "n1"));
 		assertThat(readAllKits()).isEmpty();
 	}
+	
+	@Test
+	public void testUpdateKit() {
+		addTestKitToDatabase(1, "p1", "n1");
+		KitEntity k = new KitEntity(1, "pNew", "nNew");
+		kitMongoRepository.update(k);
+		assertThat(readAllKits()).containsExactly(k);
+	}
+	
+	@Test
+	public void testUpdateKitWhenNotExist() {
+		addTestKitToDatabase(1, "p1", "n1");
+		kitMongoRepository.update(new KitEntity(0, "pNew", "nNew"));
+		assertThat(readAllKits()).containsExactly(new KitEntity(1, "p1", "n1"));
+	}
 }
