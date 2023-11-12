@@ -26,12 +26,19 @@
 		<pit.version>1.5.2</pit.version>
 		<javax.version>2.3.1</javax.version>
 		<sonar.version>3.8.0.2131</sonar.version>
+		<maven.build.helper.version>3.0.0</maven.build.helper.version>
+		<maven.failsafe.version>2.22.1</maven.failsafe.version>
 
 		<!-- dependencies versions -->
 		<junit.version>4.13</junit.version>
 		<assertj.version>3.17.1</assertj.version>
 		<mockito.version>4.0.0</mockito.version>
 		<log4j.version>2.13.0</log4j.version>
+		<mongo.java.server.version>1.11.1</mongo.java.server.version>
+		<mongo.java.driver.version>3.12.7</mongo.java.driver.version>
+		<logback.version>1.2.3</logback.version>
+		<picocli.version>4.6.1</picocli.version>
+		<testcontainers.version>1.15.1</testcontainers.version>
 
 		<!-- sonar -->
 		<sonar.coverage.exclusions>
@@ -44,35 +51,35 @@
 		</sonar.junit.reportPaths>
 		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
 
-		<sonar.issue.ignore.multicriteria.e11.ruleKey>
-			java:S110
-		</sonar.issue.ignore.multicriteria.e11.ruleKey>
-		<sonar.issue.ignore.multicriteria.e11.resourceKey>
-			**/*.java
-		</sonar.issue.ignore.multicriteria.e11.resourceKey>
-		<!-- "Local variable and method parameter names should comply with a naming convention" -->
-		<sonar.issue.ignore.multicriteria.e12.ruleKey>
+		<!-- "Local variable and method parameter names should comply with a
+		naming convention" -->
+		<sonar.issue.ignore.multicriteria.e1.ruleKey>
 			java:S117
-		</sonar.issue.ignore.multicriteria.e12.ruleKey>
-		<sonar.issue.ignore.multicriteria.e12.resourceKey>
+		</sonar.issue.ignore.multicriteria.e1.ruleKey>
+		<sonar.issue.ignore.multicriteria.e1.resourceKey>
 			**/LegoSwingView.java
-		</sonar.issue.ignore.multicriteria.e12.resourceKey>
-		
-		<!-- "Tests should include assertions": -->
-		<sonar.issue.ignore.multicriteria.e13.ruleKey>
+		</sonar.issue.ignore.multicriteria.e1.resourceKey>
+		<!-- Disable "Tests should include assertions": -->
+		<sonar.issue.ignore.multicriteria.e2.ruleKey>
 			java:S2699
-		</sonar.issue.ignore.multicriteria.e13.ruleKey>
-		<sonar.issue.ignore.multicriteria.e13.resourceKey>
+		</sonar.issue.ignore.multicriteria.e2.ruleKey>
+		<sonar.issue.ignore.multicriteria.e2.resourceKey>
 			**/LegoSwingViewTest.java
-		</sonar.issue.ignore.multicriteria.e13.resourceKey>
-
-		<!-- "Tests classes should comply with a naming convention" -->
-		<sonar.issue.ignore.multicriteria.e14.ruleKey>
+		</sonar.issue.ignore.multicriteria.e2.resourceKey>
+		<!-- Disable "Tests classes should comply with a naming convention": -->
+		<sonar.issue.ignore.multicriteria.e3.ruleKey>
 			java:S3577
-		</sonar.issue.ignore.multicriteria.e14.ruleKey>
-		<sonar.issue.ignore.multicriteria.e14.resourceKey>
+		</sonar.issue.ignore.multicriteria.e3.ruleKey>
+		<sonar.issue.ignore.multicriteria.e3.resourceKey>
 			**/*E2E.java
-		</sonar.issue.ignore.multicriteria.e14.resourceKey>
+		</sonar.issue.ignore.multicriteria.e3.resourceKey>
+		<sonar.issue.ignore.multicriteria.e4.ruleKey>
+			java:S110
+		</sonar.issue.ignore.multicriteria.e4.ruleKey>
+		<sonar.issue.ignore.multicriteria.e4.resourceKey>
+			**/*.java
+		</sonar.issue.ignore.multicriteria.e4.resourceKey>
+
 
 		<sonar.junit.reportPaths>
 			${project.build.directory}/surefire-reports,
@@ -112,35 +119,35 @@
 		<dependency>
 			<groupId>de.bwaldvogel</groupId>
 			<artifactId>mongo-java-server</artifactId>
-			<version>1.11.1</version>
+			<version>${mongo.java.server.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
-			<version>3.12.7</version>
 			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo.java.driver.version}</version>
 		</dependency>
 		<dependency>
 			<!-- required to see Mongo Java Driver logs -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
+			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
-			<version>4.6.1</version>
+			<version>${picocli.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>testcontainers</artifactId>
-			<version>1.15.1</version>
+			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>mongodb</artifactId>
-			<version>1.15.1</version>
+			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -150,7 +157,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${maven.build.helper.version}</version>
 				<executions>
 					<execution>
 						<id>add-test-source</id>
@@ -170,7 +177,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.1</version>
+				<version>${maven.failsafe.version}</version>
 				<executions>
 					<execution>
 						<id>default-it</id>
