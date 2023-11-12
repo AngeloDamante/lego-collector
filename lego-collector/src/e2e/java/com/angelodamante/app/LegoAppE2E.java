@@ -197,7 +197,7 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 	public void testSearchLegosByBudsSuccess() {
 		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText(LEGO_FIXTURE_1_OF_KIT_1_BUDS.toString());
 		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
-		assertThat(window.list("listSearchedKits").contents()).anySatisfy(e -> assertThat(e).contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
+		assertThat(window.list("listSearchedLegos").contents()).anySatisfy(e -> assertThat(e).contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
 	}
 	
 	@Test

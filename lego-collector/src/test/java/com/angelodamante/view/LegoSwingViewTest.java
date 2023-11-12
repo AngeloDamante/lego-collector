@@ -286,6 +286,14 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 	
 	@Test
+	public void testShowAllSearchedLegos() {
+		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
+		GuiActionRunner.execute(() -> legoSwingView.showAllSearchedLegos(Arrays.asList(lego)));
+		String[] legos = window.list("listSearchedLegos").contents();
+		assertThat(legos).containsExactly(lego.toString());
+	}
+	
+	@Test
 	public void testUpdateKitBtnIsDisabledWhenNoKitsAreSelected() {
 		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}

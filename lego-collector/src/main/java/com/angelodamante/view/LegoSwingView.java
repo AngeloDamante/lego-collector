@@ -389,7 +389,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_scrollPaneSearch.gridy = 12;
 		contentPane.add(scrollPaneSearch, gbc_scrollPaneSearch);
 		listSearchedLegos = new JList<>(listSearchedLegosModel);
-		listSearchedLegos.setName("listSearchedKits");
+		listSearchedLegos.setName("listSearchedLegos");
 		listSearchedLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneSearch.setViewportView(listSearchedLegos);
 
