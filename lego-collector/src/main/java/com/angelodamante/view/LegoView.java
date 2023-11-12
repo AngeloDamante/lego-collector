@@ -19,4 +19,6 @@ public interface LegoView {
 	public void showError(String string);
 
 	public void onDeletedLego(LegoEntity lego);
+
+	public void showAllSearchedLegos(List<LegoEntity> legos);
 }

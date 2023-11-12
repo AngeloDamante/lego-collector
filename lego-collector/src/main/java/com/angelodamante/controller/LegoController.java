@@ -75,4 +75,14 @@ public class LegoController {
 		List<LegoEntity> legos = legoRepository.getLegosByKitId(id);
 		legoView.showAllLegos(legos);
 	}
+
+	public void legosByBuds(String buds) {
+		Integer budsParsed = tryIntegerParsing(buds);
+		if (budsParsed == null) {
+			legoView.showError("Buds Should Be Integer");
+			return;
+		}
+		List<LegoEntity> legos = legoRepository.getLegosByBuds(budsParsed);
+		legoView.showAllSearchedLegos(legos);
+	}
 }

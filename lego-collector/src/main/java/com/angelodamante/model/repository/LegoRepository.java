@@ -14,4 +14,5 @@ public interface LegoRepository {
 
 	public List<LegoEntity> getLegosByKitId(Integer kitId);
 
+	public List<LegoEntity> getLegosByBuds(Integer buds);
 }

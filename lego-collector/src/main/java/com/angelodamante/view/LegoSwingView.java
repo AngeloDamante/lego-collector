@@ -39,8 +39,8 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private DefaultListModel<LegoEntity> listLegosModel;
 	private JList<KitEntity> listKits;
 	private DefaultListModel<KitEntity> listKitsModel;
-	private JList<KitEntity> listSearchedLegos;
-	private DefaultListModel<KitEntity> listSearchedLegosModel;
+	private JList<LegoEntity> listSearchedLegos;
+	private DefaultListModel<LegoEntity> listSearchedLegosModel;
 	private JLabel lblName;
 	private JTextField txtName;
 	private JButton btnAddKit;
@@ -60,7 +60,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 	private JLabel lblErrorLog;
 	private JButton btnDeleteLego;
 	private JSeparator separatorKits;
-	private JTextField txtSearch;
+	private JTextField txtSearchBuds;
 	private JButton btnSearchLegos;
 	private JSeparator separator;
 
@@ -117,14 +117,22 @@ public class LegoSwingView extends JFrame implements LegoView {
 		txtProductCode.setColumns(10);
 		txtProductCode.addKeyListener(keyAdapterAddBtnEnabler);
 
-		txtSearch = new JTextField();
-		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
-		gbc_txtSearch.insets = new Insets(0, 0, 5, 0);
-		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSearch.gridx = 3;
-		gbc_txtSearch.gridy = 10;
-		contentPane.add(txtSearch, gbc_txtSearch);
-		txtSearch.setColumns(10);
+		txtSearchBuds = new JTextField();
+		GridBagConstraints gbc_txtSearchBuds = new GridBagConstraints();
+		gbc_txtSearchBuds.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSearchBuds.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSearchBuds.gridx = 3;
+		gbc_txtSearchBuds.gridy = 10;
+		txtSearchBuds.setName("txtSearchBuds");
+		contentPane.add(txtSearchBuds, gbc_txtSearchBuds);
+		txtSearchBuds.setColumns(10);
+		KeyAdapter keyAdapterSearchLegosBtnEnabler = new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				btnSearchLegos.setEnabled(!txtSearchBuds.getText().trim().isEmpty());
+			}
+		};
+		txtSearchBuds.addKeyListener(keyAdapterSearchLegosBtnEnabler);
 
 		lblName = new JLabel("name");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
@@ -155,11 +163,15 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(separator, gbc_separator);
 
 		btnSearchLegos = new JButton("Search Legos with buds");
+		btnSearchLegos.setEnabled(false);
 		GridBagConstraints gbc_btnSearchLegos = new GridBagConstraints();
 		gbc_btnSearchLegos.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSearchLegos.gridx = 3;
 		gbc_btnSearchLegos.gridy = 11;
+		btnSearchLegos.setName("btnSearchLegos");
 		contentPane.add(btnSearchLegos, gbc_btnSearchLegos);
+		btnSearchLegos.addActionListener(e -> legoController.legosByBuds(txtSearchBuds.getText()));
+
 
 		btnAddKit = new JButton("Add Kit");
 		btnAddKit.setEnabled(false);
@@ -332,13 +344,6 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_scrollPaneSearch.gridy = 12;
 		contentPane.add(scrollPaneSearch, gbc_scrollPaneSearch);
 		listSearchedLegos = new JList<>(listSearchedLegosModel);
-		listSearchedLegos.addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// ???????????????
-			}
-		});
 		listSearchedLegos.setName("listSearchedKits");
 		listSearchedLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneSearch.setViewportView(listSearchedLegos);
@@ -393,5 +398,11 @@ public class LegoSwingView extends JFrame implements LegoView {
 	@Override
 	public void onDeletedLego(LegoEntity lego) {
 		listLegosModel.removeElement(lego);
+	}
+
+	@Override
+	public void showAllSearchedLegos(List<LegoEntity> legos) {
+		listLegosModel.clear();
+		legos.stream().forEach(listSearchedLegosModel::addElement);
 	}
 }

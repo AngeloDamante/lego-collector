@@ -124,4 +124,17 @@ public class LegoControllerTest {
 		verify(legoView).showAllLegos(Arrays.asList(lego));
 	}
 	
+	@Test
+	public void testLegosByBuds() {
+		LegoEntity lego = new LegoEntity(0, "p", 1, 1, 1);
+		when(legoRepository.getLegosByBuds(1)).thenReturn(Arrays.asList(lego));
+		legoController.legosByBuds(lego.getBuds().toString());
+		verify(legoView).showAllSearchedLegos(Arrays.asList(lego));
+	}
+	@Test
+	public void testLegosByBudsWhenNotInteger() {
+		legoController.legosByBuds("snhfbvfhjsdfaf");
+		verify(legoView).showError("Buds Should Be Integer");
+	}
+	
 }

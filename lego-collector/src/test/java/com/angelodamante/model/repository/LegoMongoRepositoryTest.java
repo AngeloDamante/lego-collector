@@ -130,5 +130,12 @@ public class LegoMongoRepositoryTest {
 		addTestLegoToDatabase(2, "333", 5, 2, 2);
 		assertThat(legoMongoRepository.getLegosByKitId(1)).containsExactly(new LegoEntity(1, "222", 5, 2, 1));
 	}
+	
+	@Test
+	public void testGetLegosByBuds() {
+		addTestLegoToDatabase(1, "222", 1, 1, 1);
+		addTestLegoToDatabase(2, "333", 2, 2, 2);
+		assertThat(legoMongoRepository.getLegosByBuds(1)).containsExactly(new LegoEntity(1, "222", 1, 1, 1));
+	}
 
 }

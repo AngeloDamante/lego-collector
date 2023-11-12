@@ -59,5 +59,10 @@ public class LegoMongoRepository implements LegoRepository {
 		return StreamSupport.stream(legoCollection.find(Filters.eq("kitId", kitId)).spliterator(), false).map(this::fromDocumentToLego)
 				.collect(Collectors.toList());
 	}
-
+	
+	@Override
+	public List<LegoEntity> getLegosByBuds(Integer buds) {
+		return StreamSupport.stream(legoCollection.find(Filters.eq("buds", buds)).spliterator(), false).map(this::fromDocumentToLego)
+				.collect(Collectors.toList());
+	}
 }

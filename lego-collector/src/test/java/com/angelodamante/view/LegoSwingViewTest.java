@@ -267,5 +267,21 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		verify(legoController).legosOfKitId(kit.getId());
 	}
 	
+	@Test
+	public void testWhenLegoIsNotSelectedSearchButtonIsDisabled() {
+		assertFalse(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
+	}
+
+	@Test
+	public void testSearchButtonIsEnabledWhenThereIsSomethingText() {
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("3");
+		assertTrue(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
+	}
 	
+	@Test
+	public void testSearchButton() {
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("3");
+		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
+		verify(legoController).legosByBuds("3");
+	}
 }
