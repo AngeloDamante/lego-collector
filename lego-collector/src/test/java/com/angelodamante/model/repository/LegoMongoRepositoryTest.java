@@ -1,8 +1,12 @@
 package com.angelodamante.model.repository;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.bson.Document;
 import org.junit.After;
@@ -11,6 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.AfterClass;
 import org.junit.Test;
 
+import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
@@ -75,6 +80,41 @@ public class LegoMongoRepositoryTest {
 	public void testGetAllLegosWhenThereIsOneLego() {
 		addTestLegoToDatabase(0, "6383", 8, 3, 1);
 		assertThat(legoMongoRepository.getAllLegos()).containsExactly(new LegoEntity(0, "6383", 8, 3, 1));
+	}
+
+	private List<LegoEntity> readAllLegos() {
+		return StreamSupport.stream(legoCollection.find().spliterator(), false)
+				.map(d -> new LegoEntity(d.getInteger("id"), "" + d.get("productCode"), d.getInteger("buds"),
+						d.getInteger("quantity"), d.getInteger("kitId")))
+				.collect(Collectors.toList());
+	}
+
+	@Test
+	public void testAddLegoWhenNoLegos() {
+		LegoEntity le = legoMongoRepository.add("12345", 5, 2, 1);
+		assertEquals(new LegoEntity(0, "12345", 5, 2, 1), le);
+		assertThat(readAllLegos()).containsExactly(new LegoEntity(0, "12345", 5, 2, 1));
+	}
+
+	@Test
+	public void testAddLegoWhenThereIsOneLego() {
+		addTestLegoToDatabase(0, "111", 5, 2, 1);
+
+		LegoEntity le = legoMongoRepository.add("222", 5, 2, 1);
+		assertEquals(new LegoEntity(1, "222", 5, 2, 1), le);
+		assertThat(readAllLegos()).containsExactly(new LegoEntity(0, "111", 5, 2, 1),
+				new LegoEntity(1, "222", 5, 2, 1));
+	}
+
+	@Test
+	public void testAddLegoWhenThereAreUnorderedLegos() {
+		addTestLegoToDatabase(1, "222", 5, 2, 1);
+		addTestLegoToDatabase(0, "111", 5, 2, 1);
+
+		LegoEntity le = legoMongoRepository.add("333", 5, 2, 1);
+		assertEquals(new LegoEntity(2, "333", 5, 2, 1), le);
+		assertThat(readAllLegos()).containsExactly(new LegoEntity(1, "222", 5, 2, 1), new LegoEntity(0, "111", 5, 2, 1),
+				new LegoEntity(2, "333", 5, 2, 1));
 	}
 
 }

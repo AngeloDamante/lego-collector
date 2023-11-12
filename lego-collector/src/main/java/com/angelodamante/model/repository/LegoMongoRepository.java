@@ -1,5 +1,7 @@
 package com.angelodamante.model.repository;
 
+import static com.mongodb.client.model.Sorts.descending;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -26,6 +28,23 @@ public class LegoMongoRepository implements LegoRepository {
 	public List<LegoEntity> getAllLegos() {
 		return StreamSupport.stream(legoCollection.find().spliterator(), false).map(this::fromDocumentToLego)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public LegoEntity add(String productCode, Integer buds, Integer quantity, Integer kitId) {
+		Integer id = 0;
+		Document d = legoCollection.find().sort(descending("id")).first();
+		if (d != null) {
+			id = d.getInteger("id") + 1;
+		}
+		LegoEntity le = new LegoEntity(id, productCode, buds, quantity, kitId);
+		legoCollection.insertOne(fromLegoToDocument(le));
+		return le;
+	}
+
+	private Document fromLegoToDocument(LegoEntity le) {
+		return new Document().append("id", le.getId()).append("productCode", le.getProductCode())
+				.append("buds", le.getBuds()).append("quantity", le.getQuantity()).append("kitId", le.getKitId());
 	}
 
 }
