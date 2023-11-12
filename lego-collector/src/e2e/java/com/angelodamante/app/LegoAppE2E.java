@@ -2,6 +2,7 @@ package com.angelodamante.app;
 
 import static org.assertj.swing.launcher.ApplicationLauncher.*;
 
+import java.awt.Window;
 import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.testcontainers.containers.MongoDBContainer;
 
 import com.angelodamante.model.entities.KitEntity;
+import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 
 @RunWith(GUITestRunner.class)
@@ -110,6 +112,15 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 	
 	@Test
 	@GUITest
+	public void testWhenClickOnAKitAllLegosOFTheKitAreShown() {
+		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
+		assertThat(window.list("listLegos").contents())
+				.anySatisfy(e -> assertThat(e).contains(
+						new LegoEntity(LEGO_FIXTURE_1_OF_KIT_1_ID,  LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE, LEGO_FIXTURE_1_OF_KIT_1_BUDS, LEGO_FIXTURE_1_OF_KIT_1_QUANTITY, LEGO_FIXTURE_1_OF_KIT_1_KIT_ID).toString()));
+	}
+	
+	@Test
+	@GUITest
 	public void testDeleteKitSuccess() {
 		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
 		window.button(JButtonMatcher.withName("btnDeleteKit")).click();
@@ -124,4 +135,18 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		window.button(JButtonMatcher.withName("btnDeleteLego")).click();
 		assertThat(window.list("listLegos").contents()).noneMatch(e -> e.contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
 	}
+	
+	@Test
+	@GUITest
+	public void testUpdateKit() {
+		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText("p2");
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n2");
+		window.button(JButtonMatcher.withName("btnUpdateKit")).click();
+		assertThat(window.list("listKits").contents())
+		.anySatisfy(e -> assertThat(e).contains(
+				new KitEntity(KIT_FIXTURE_1_ID, KIT_FIXTURE_1_PRODUCTCODE+"p2", KIT_FIXTURE_1_NAME+"n2").toString()));
+	}
+	
+	
 }
