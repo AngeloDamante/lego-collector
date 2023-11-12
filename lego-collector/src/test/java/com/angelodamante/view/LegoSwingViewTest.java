@@ -115,7 +115,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	public void testWhenKitIsNotSelectedDeleteButtonIsDisabled() {
 		assertFalse(window.button(JButtonMatcher.withName("btnDeleteKit")).isEnabled());
 	}
-	
+
 	@Test
 	public void testDeleteKit() {
 		KitEntity kit = new KitEntity(0, "6383", "");
@@ -130,8 +130,16 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
 		GuiActionRunner.execute(() -> legoSwingView.onDeletedKit(kit));
-		
+
 		String[] listContents = window.list("listKits").contents();
 		assertThat(listContents).isEmpty();
+	}
+
+	@Test
+	public void testOnAddedLegoShouldAddTheLegoToTheList() {
+		LegoEntity le = new LegoEntity(0, "p", 1, 1, 1);
+		GuiActionRunner.execute(() -> legoSwingView.onAddedLego(le));
+		String[] listContents = window.list("listLegos").contents();
+		assertThat(listContents).containsExactly(le.toString());
 	}
 }
