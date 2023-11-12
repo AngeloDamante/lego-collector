@@ -402,7 +402,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 
 	@Override
 	public void showAllSearchedLegos(List<LegoEntity> legos) {
-		listLegosModel.clear();
+		listSearchedLegosModel.clear();
 		legos.stream().forEach(listSearchedLegosModel::addElement);
 	}
 }
