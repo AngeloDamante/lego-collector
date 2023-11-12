@@ -104,4 +104,13 @@ public class LegoControllerTest {
 		verify(legoView).showError("No kit Selected");
 		verify(legoView, never()).onAddedLego(le);
 	}
+	
+	@Test
+	public void testDeleteLego() {
+		LegoEntity lego = new LegoEntity(0, "p", 1, 2, 1);
+		legoController.removeLego(lego);
+		verify(legoView).onDeletedLego(lego);
+		verify(legoRepository).remove(lego);
+	}
+	
 }

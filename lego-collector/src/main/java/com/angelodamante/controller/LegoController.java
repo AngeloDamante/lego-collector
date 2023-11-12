@@ -65,4 +65,9 @@ public class LegoController {
 			return null;
 		}
 	}
+
+	public void removeLego(LegoEntity lego) {
+		legoRepository.remove(lego);
+		legoView.onDeletedLego(lego);
+	}
 }

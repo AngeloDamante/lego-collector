@@ -82,7 +82,7 @@ public class LegoMongoRepositoryTest {
 		assertThat(legoMongoRepository.getAllLegos()).containsExactly(new LegoEntity(0, "6383", 8, 3, 1));
 	}
 
-	private List<LegoEntity> readAllLegos() {
+	private List<LegoEntity> readAllLegosFromDB() {
 		return StreamSupport.stream(legoCollection.find().spliterator(), false)
 				.map(d -> new LegoEntity(d.getInteger("id"), "" + d.get("productCode"), d.getInteger("buds"),
 						d.getInteger("quantity"), d.getInteger("kitId")))
@@ -93,7 +93,7 @@ public class LegoMongoRepositoryTest {
 	public void testAddLegoWhenNoLegos() {
 		LegoEntity le = legoMongoRepository.add("12345", 5, 2, 1);
 		assertEquals(new LegoEntity(0, "12345", 5, 2, 1), le);
-		assertThat(readAllLegos()).containsExactly(new LegoEntity(0, "12345", 5, 2, 1));
+		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(0, "12345", 5, 2, 1));
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class LegoMongoRepositoryTest {
 
 		LegoEntity le = legoMongoRepository.add("222", 5, 2, 1);
 		assertEquals(new LegoEntity(1, "222", 5, 2, 1), le);
-		assertThat(readAllLegos()).containsExactly(new LegoEntity(0, "111", 5, 2, 1),
+		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(0, "111", 5, 2, 1),
 				new LegoEntity(1, "222", 5, 2, 1));
 	}
 
@@ -113,8 +113,15 @@ public class LegoMongoRepositoryTest {
 
 		LegoEntity le = legoMongoRepository.add("333", 5, 2, 1);
 		assertEquals(new LegoEntity(2, "333", 5, 2, 1), le);
-		assertThat(readAllLegos()).containsExactly(new LegoEntity(1, "222", 5, 2, 1), new LegoEntity(0, "111", 5, 2, 1),
+		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(1, "222", 5, 2, 1), new LegoEntity(0, "111", 5, 2, 1),
 				new LegoEntity(2, "333", 5, 2, 1));
+	}
+	
+	@Test
+	public void testDeleteLego() {
+		addTestLegoToDatabase(1, "222", 5, 2, 1);
+		legoMongoRepository.remove(new LegoEntity(1, "222", 5, 2, 1));
+		assertThat(readAllLegosFromDB()).isEmpty();
 	}
 
 }

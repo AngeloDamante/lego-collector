@@ -9,4 +9,7 @@ public interface LegoRepository {
 	public List<LegoEntity> getAllLegos();
 
 	public LegoEntity add(String productCode, Integer buds, Integer quantity, Integer kitId);
+
+	public void remove(LegoEntity lego);
+
 }

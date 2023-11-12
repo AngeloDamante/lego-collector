@@ -8,9 +8,11 @@ import java.util.stream.StreamSupport;
 
 import org.bson.Document;
 
+import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 
 public class LegoMongoRepository implements LegoRepository {
 
@@ -45,6 +47,11 @@ public class LegoMongoRepository implements LegoRepository {
 	private Document fromLegoToDocument(LegoEntity le) {
 		return new Document().append("id", le.getId()).append("productCode", le.getProductCode())
 				.append("buds", le.getBuds()).append("quantity", le.getQuantity()).append("kitId", le.getKitId());
+	}
+	
+	@Override
+	public void remove(LegoEntity lego) {
+		legoCollection.deleteOne(Filters.eq("id", lego.getId()));
 	}
 
 }
