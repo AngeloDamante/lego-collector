@@ -11,6 +11,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.testcontainers.containers.GenericContainer;
 
+import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
@@ -62,7 +63,7 @@ public class LegoMongoRepositoryTestcontainersIT {
 				new LegoEntity(1, "0451", 3, 2, 1));
 	}
 
-	public List<LegoEntity> readAllLegos() {
+	public List<LegoEntity> readAllLegosFromDB() {
 		return StreamSupport.stream(legoCollection.find().spliterator(), false)
 				.map(d -> new LegoEntity(d.getInteger("id"), "" + d.get("productCode"), d.getInteger("buds"),
 						d.getInteger("quantity"), d.getInteger("kitId")))
@@ -74,8 +75,15 @@ public class LegoMongoRepositoryTestcontainersIT {
 		legoMongoRepository.add("p1", 1, 1, 1);
 		legoMongoRepository.add("p2", 2, 2, 2);
 
-		assertThat(readAllLegos()).containsExactly(new LegoEntity(0, "p1", 1, 1, 1),
+		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(0, "p1", 1, 1, 1),
 				new LegoEntity(1, "p2", 2, 2, 2));
+	}
+	
+	@Test
+	public void testDeleteLego() {
+		addTestLegoToDatabase(0, "6383", 8, 3, 1);
+		legoMongoRepository.remove(new LegoEntity(0, "6383", 8, 3, 1));
+		assertThat(readAllLegosFromDB()).isEmpty();
 	}
 
 }
