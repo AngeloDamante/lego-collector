@@ -14,6 +14,7 @@ import org.assertj.swing.core.GenericTypeMatcher;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.core.matcher.JTextComponentMatcher;
+import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.runner.GUITestRunner;
@@ -99,7 +100,7 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		mongoClient.getDatabase(DB_NAME).getCollection(KIT_COLLECTION_NAME)
 				.insertOne(new Document().append("id", id).append("productCode", productCode).append("name", name));
 	}
-	
+
 	@Test
 	@GUITest
 	public void testOnStartAllKitsInDatabaseElementsAreShown() {
@@ -109,33 +110,34 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 				.anySatisfy(e -> assertThat(e).contains(
 						new KitEntity(KIT_FIXTURE_2_ID, KIT_FIXTURE_2_PRODUCTCODE, KIT_FIXTURE_2_NAME).toString()));
 	}
-	
+
 	@Test
 	@GUITest
 	public void testWhenClickOnAKitAllLegosOFTheKitAreShown() {
 		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
-		assertThat(window.list("listLegos").contents())
-				.anySatisfy(e -> assertThat(e).contains(
-						new LegoEntity(LEGO_FIXTURE_1_OF_KIT_1_ID,  LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE, LEGO_FIXTURE_1_OF_KIT_1_BUDS, LEGO_FIXTURE_1_OF_KIT_1_QUANTITY, LEGO_FIXTURE_1_OF_KIT_1_KIT_ID).toString()));
+		assertThat(window.list("listLegos").contents()).anySatisfy(e -> assertThat(e)
+				.contains(new LegoEntity(LEGO_FIXTURE_1_OF_KIT_1_ID, LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE,
+						LEGO_FIXTURE_1_OF_KIT_1_BUDS, LEGO_FIXTURE_1_OF_KIT_1_QUANTITY, LEGO_FIXTURE_1_OF_KIT_1_KIT_ID)
+						.toString()));
 	}
-	
+
 	@Test
 	@GUITest
-	public void testDeleteKitSuccess() {
+	public void testDeleteKit() {
 		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
 		window.button(JButtonMatcher.withName("btnDeleteKit")).click();
 		assertThat(window.list("listKits").contents()).noneMatch(e -> e.contains(KIT_FIXTURE_1_PRODUCTCODE));
 	}
-	
+
 	@Test
 	@GUITest
-	public void testDeleteLegoSuccess() {
+	public void testDeleteLego() {
 		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
 		window.list("listLegos").selectItem(Pattern.compile(".*" + LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE + ".*"));
 		window.button(JButtonMatcher.withName("btnDeleteLego")).click();
 		assertThat(window.list("listLegos").contents()).noneMatch(e -> e.contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
 	}
-	
+
 	@Test
 	@GUITest
 	public void testUpdateKit() {
@@ -143,10 +145,66 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).enterText("p2");
 		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n2");
 		window.button(JButtonMatcher.withName("btnUpdateKit")).click();
-		assertThat(window.list("listKits").contents())
-		.anySatisfy(e -> assertThat(e).contains(
-				new KitEntity(KIT_FIXTURE_1_ID, KIT_FIXTURE_1_PRODUCTCODE+"p2", KIT_FIXTURE_1_NAME+"n2").toString()));
+		assertThat(window.list("listKits").contents()).anySatisfy(e -> assertThat(e)
+				.contains(new KitEntity(KIT_FIXTURE_1_ID, KIT_FIXTURE_1_PRODUCTCODE + "p2", KIT_FIXTURE_1_NAME + "n2")
+						.toString()));
+	}
+
+	@Test
+	@GUITest
+	public void testAddKit() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCode")).enterText("a3a3a3a3");
+		window.textBox(JTextComponentMatcher.withName("txtName")).enterText("n2");
+		window.button(JButtonMatcher.withName("btnAddKit")).click();
+		assertThat(window.list("listKits").contents()).anySatisfy(e -> assertThat(e).contains("a3a3a3a3"));
+	}
+
+	@Test
+	@GUITest
+	public void testAddLegoSuccess() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p2p2");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("8");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+		window.list("listKits").selectItem(0);
+		window.button(JButtonMatcher.withName("btnAddLego")).click();
+		assertThat(window.list("listLegos").contents()).anySatisfy(e -> assertThat(e).contains("p2p2"));
 	}
 	
+	@Test
+	@GUITest
+	public void testAddLegoErrorQuantity() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p2p2");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("8");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("aaa");
+		window.list("listKits").selectItem(0);
+		window.button(JButtonMatcher.withName("btnAddLego")).click();
+		assertThat(window.label(JLabelMatcher.withName("lblErrorLog")).text()).contains("Quantity", "Integer");
+	}
 	
+	@Test
+	@GUITest
+	public void testAddLegoErrorBuds() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p2p2");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("aaaa");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+		window.list("listKits").selectItem(0);
+		window.button(JButtonMatcher.withName("btnAddLego")).click();
+		assertThat(window.label(JLabelMatcher.withName("lblErrorLog")).text()).contains("Buds", "Integer");
+	}
+
+	@Test
+	@GUITest
+	public void testSearchLegosByBudsSuccess() {
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText(LEGO_FIXTURE_1_OF_KIT_1_BUDS.toString());
+		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
+		assertThat(window.list("listSearchedKits").contents()).anySatisfy(e -> assertThat(e).contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
+	}
+	
+	@Test
+	@GUITest
+	public void testSearchLegosByBudsErrorNotABud() {
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("bbb");
+		window.button(JButtonMatcher.withName("btnSearchLegos")).click();
+		assertThat(window.label(JLabelMatcher.withName("lblErrorLog")).text()).contains("Buds", "Integer");
+	}
 }
