@@ -258,4 +258,14 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		String[] listContents = window.list("listLegos").contents();
 		assertThat(listContents).isEmpty();
 	}
+	
+	@Test
+	public void testOnKitSelectedShouldShowLegos() {
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+		verify(legoController).legosOfKitId(kit.getId());
+	}
+	
+	
 }

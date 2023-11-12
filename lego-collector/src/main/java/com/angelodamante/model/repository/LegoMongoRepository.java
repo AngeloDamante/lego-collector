@@ -54,4 +54,10 @@ public class LegoMongoRepository implements LegoRepository {
 		legoCollection.deleteOne(Filters.eq("id", lego.getId()));
 	}
 
+	@Override
+	public List<LegoEntity> getLegosByKitId(Integer kitId) {
+		return StreamSupport.stream(legoCollection.find(Filters.eq("kitId", kitId)).spliterator(), false).map(this::fromDocumentToLego)
+				.collect(Collectors.toList());
+	}
+
 }

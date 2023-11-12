@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.angelodamante.model.entities.LegoEntity;
@@ -111,6 +112,16 @@ public class LegoControllerTest {
 		legoController.removeLego(lego);
 		verify(legoView).onDeletedLego(lego);
 		verify(legoRepository).remove(lego);
+	}
+	
+	@Test
+	public void testlegosOfKitId() {
+		LegoEntity lego = new LegoEntity(0, "p", 1, 2, 1);
+		KitEntity k = new KitEntity(1, "n", "p");
+
+		when(legoRepository.getLegosByKitId(1)).thenReturn(Arrays.asList(lego));
+		legoController.legosOfKitId(k.getId());
+		verify(legoView).showAllLegos(Arrays.asList(lego));
 	}
 	
 }

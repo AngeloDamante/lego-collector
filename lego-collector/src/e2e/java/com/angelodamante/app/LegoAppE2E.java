@@ -53,7 +53,7 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 	private static final String LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE = "51613";
 	private static final Integer LEGO_FIXTURE_1_OF_KIT_1_BUDS = 8;
 	private static final Integer LEGO_FIXTURE_1_OF_KIT_1_QUANTITY = 2;
-	private static final Integer LEGO_FIXTURE_1_OF_KIT_1_KIT_ID = 1;
+	private static final Integer LEGO_FIXTURE_1_OF_KIT_1_KIT_ID = KIT_FIXTURE_1_ID;
 
 	@Override
 	protected void onSetUp() {
@@ -114,5 +114,14 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
 		window.button(JButtonMatcher.withName("btnDeleteKit")).click();
 		assertThat(window.list("listKits").contents()).noneMatch(e -> e.contains(KIT_FIXTURE_1_PRODUCTCODE));
+	}
+	
+	@Test
+	@GUITest
+	public void testDeleteLegoSuccess() {
+		window.list("listKits").selectItem(Pattern.compile(".*" + KIT_FIXTURE_1_PRODUCTCODE + ".*"));
+		window.list("listLegos").selectItem(Pattern.compile(".*" + LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE + ".*"));
+		window.button(JButtonMatcher.withName("btnDeleteLego")).click();
+		assertThat(window.list("listLegos").contents()).noneMatch(e -> e.contains(LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE));
 	}
 }

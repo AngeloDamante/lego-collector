@@ -70,4 +70,9 @@ public class LegoController {
 		legoRepository.remove(lego);
 		legoView.onDeletedLego(lego);
 	}
+
+	public void legosOfKitId(Integer id) {
+		List<LegoEntity> legos = legoRepository.getLegosByKitId(id);
+		legoView.showAllLegos(legos);
+	}
 }

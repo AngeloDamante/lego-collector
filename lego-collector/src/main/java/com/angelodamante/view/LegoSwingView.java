@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.angelodamante.controller.LegoController;
 import com.angelodamante.model.entities.KitEntity;
@@ -140,6 +142,9 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneLego.setViewportView(listLegos);
 		listLegos.addListSelectionListener(listSelectionEvent -> {
+			if(listLegos.getValueIsAdjusting()) {
+				return;
+			}
 			btnDeleteLego.setEnabled(listLegos.getSelectedIndex() != -1);
 		});
 
@@ -247,9 +252,20 @@ public class LegoSwingView extends JFrame implements LegoView {
 
 		listKitsModel = new DefaultListModel<>();
 		listKits = new JList<>(listKitsModel);
-		listKits.addListSelectionListener(listSelectionEvent -> {
-			btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
-			updateAddLegoButtonEnable();
+		listKits.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(listKits.getValueIsAdjusting()) {
+					return;
+				}
+				btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
+				updateAddLegoButtonEnable();
+				KitEntity kit = listKits.getSelectedValue();
+				if (kit != null) {				
+					legoController.legosOfKitId(kit.getId());
+				}
+			}
 		});
 		listKits.setName("listKits");
 		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -279,6 +295,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 
 	@Override
 	public void showAllLegos(List<LegoEntity> legos) {
+		listLegosModel.clear();
 		legos.stream().forEach(listLegosModel::addElement);
 	}
 

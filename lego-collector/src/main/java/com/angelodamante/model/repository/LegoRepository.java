@@ -12,4 +12,6 @@ public interface LegoRepository {
 
 	public void remove(LegoEntity lego);
 
+	public List<LegoEntity> getLegosByKitId(Integer kitId);
+
 }
