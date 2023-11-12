@@ -12,7 +12,7 @@ public class LegoController {
 	private LegoRepository legoRepository;
 	private KitRepository kitRepository;
 	private LegoView legoView;
-	
+
 	public LegoController(LegoRepository legoRepository, KitRepository kitRepository, LegoView legoView) {
 		this.legoRepository = legoRepository;
 		this.kitRepository = kitRepository;
@@ -23,7 +23,7 @@ public class LegoController {
 		List<LegoEntity> legos = legoRepository.getAllLegos();
 		legoView.showAllLegos(legos);
 	}
-	
+
 	public void allKits() {
 		List<KitEntity> kits = kitRepository.getAllKits();
 		legoView.showAllKits(kits);
@@ -57,11 +57,11 @@ public class LegoController {
 		LegoEntity le = legoRepository.add(productCode, budsParsed, quantityParsed, kit.getId());
 		legoView.onAddedLego(le);
 	}
-	
+
 	private Integer tryIntegerParsing(String text) {
 		try {
 			return Integer.parseInt(text);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			return null;
 		}
 	}

@@ -77,7 +77,7 @@ public class LegoMongoRepositoryTestcontainersIT {
 		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(0, "p1", 1, 1, 1),
 				new LegoEntity(1, "p2", 2, 2, 2));
 	}
-	
+
 	@Test
 	public void testDeleteLego() {
 		addTestLegoToDatabase(0, "6383", 8, 3, 1);

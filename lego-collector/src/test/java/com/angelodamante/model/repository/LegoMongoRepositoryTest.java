@@ -112,24 +112,24 @@ public class LegoMongoRepositoryTest {
 
 		LegoEntity le = legoMongoRepository.add("333", 5, 2, 1);
 		assertEquals(new LegoEntity(2, "333", 5, 2, 1), le);
-		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(1, "222", 5, 2, 1), new LegoEntity(0, "111", 5, 2, 1),
-				new LegoEntity(2, "333", 5, 2, 1));
+		assertThat(readAllLegosFromDB()).containsExactly(new LegoEntity(1, "222", 5, 2, 1),
+				new LegoEntity(0, "111", 5, 2, 1), new LegoEntity(2, "333", 5, 2, 1));
 	}
-	
+
 	@Test
 	public void testDeleteLego() {
 		addTestLegoToDatabase(1, "222", 5, 2, 1);
 		legoMongoRepository.remove(new LegoEntity(1, "222", 5, 2, 1));
 		assertThat(readAllLegosFromDB()).isEmpty();
 	}
-	
+
 	@Test
 	public void testGetLegosByKitId() {
 		addTestLegoToDatabase(1, "222", 5, 2, 1);
 		addTestLegoToDatabase(2, "333", 5, 2, 2);
 		assertThat(legoMongoRepository.getLegosByKitId(1)).containsExactly(new LegoEntity(1, "222", 5, 2, 1));
 	}
-	
+
 	@Test
 	public void testGetLegosByBuds() {
 		addTestLegoToDatabase(1, "222", 1, 1, 1);

@@ -82,7 +82,7 @@ public class KitMongoRepositoryTestcontainersIT {
 		kitMongoRepository.remove(new KitEntity(1, "p1", "n1"));
 		assertThat(readAllKitsFromDatabase()).isEmpty();
 	}
-	
+
 	@Test
 	public void testUpdateKit() {
 		addTestKitToDatabase(1, "p1", "n1");

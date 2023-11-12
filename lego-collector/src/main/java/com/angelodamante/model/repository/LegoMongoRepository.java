@@ -14,7 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
 public class LegoMongoRepository implements LegoRepository {
-	
+
 	private static final String KIT_ID_COLUMN = "kitId";
 	private MongoCollection<Document> legoCollection;
 
@@ -48,7 +48,7 @@ public class LegoMongoRepository implements LegoRepository {
 		return new Document().append("id", le.getId()).append("productCode", le.getProductCode())
 				.append("buds", le.getBuds()).append("quantity", le.getQuantity()).append(KIT_ID_COLUMN, le.getKitId());
 	}
-	
+
 	@Override
 	public void remove(LegoEntity lego) {
 		legoCollection.deleteOne(Filters.eq("id", lego.getId()));
@@ -56,13 +56,13 @@ public class LegoMongoRepository implements LegoRepository {
 
 	@Override
 	public List<LegoEntity> getLegosByKitId(Integer kitId) {
-		return StreamSupport.stream(legoCollection.find(Filters.eq(KIT_ID_COLUMN, kitId)).spliterator(), false).map(this::fromDocumentToLego)
-				.collect(Collectors.toList());
+		return StreamSupport.stream(legoCollection.find(Filters.eq(KIT_ID_COLUMN, kitId)).spliterator(), false)
+				.map(this::fromDocumentToLego).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public List<LegoEntity> getLegosByBuds(Integer buds) {
-		return StreamSupport.stream(legoCollection.find(Filters.eq("buds", buds)).spliterator(), false).map(this::fromDocumentToLego)
-				.collect(Collectors.toList());
+		return StreamSupport.stream(legoCollection.find(Filters.eq("buds", buds)).spliterator(), false)
+				.map(this::fromDocumentToLego).collect(Collectors.toList());
 	}
 }

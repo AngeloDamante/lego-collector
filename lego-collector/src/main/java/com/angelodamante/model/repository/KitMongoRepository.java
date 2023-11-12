@@ -42,7 +42,8 @@ public class KitMongoRepository implements KitRepository {
 	}
 
 	private Document fromKitToDocument(KitEntity k) {
-		return new Document().append("id", k.getId()).append("productCode", k.getProductCode()).append("name", k.getName()); 
+		return new Document().append("id", k.getId()).append("productCode", k.getProductCode()).append("name",
+				k.getName());
 	}
 
 	@Override
@@ -54,6 +55,5 @@ public class KitMongoRepository implements KitRepository {
 	public void update(KitEntity kit) {
 		kitCollection.updateOne(Filters.eq("id", kit.getId()), new Document("$set", fromKitToDocument(kit)));
 	}
-
 
 }
