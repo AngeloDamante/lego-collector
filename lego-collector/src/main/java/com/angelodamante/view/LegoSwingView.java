@@ -93,7 +93,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		lblErrorLog.setName("lblErrorLog");
 		contentPane.add(lblErrorLog, gbc_lblErrorLog);
 
-		JLabel lblProductCode = new JLabel("production code");
+		JLabel lblProductCode = new JLabel("product code");
 		GridBagConstraints gbc_lblProductCode = new GridBagConstraints();
 		gbc_lblProductCode.anchor = GridBagConstraints.EAST;
 		gbc_lblProductCode.insets = new Insets(0, 0, 5, 5);
@@ -101,7 +101,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_lblProductCode.gridy = 1;
 		lblProductCode.setName("lblProductCode");
 		contentPane.add(lblProductCode, gbc_lblProductCode);
-		KeyAdapter keyAdapterAddBtnEnabler = new KeyAdapter() {
+		KeyAdapter keyAdapterAddKitBtnEnabler = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				btnAddKit.setEnabled(!txtProductCode.getText().trim().isEmpty() && !txtName.getText().trim().isEmpty());
@@ -117,7 +117,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(txtProductCode, gbc_txtProductCode);
 		txtProductCode.setName("txtProductCode");
 		txtProductCode.setColumns(10);
-		txtProductCode.addKeyListener(keyAdapterAddBtnEnabler);
+		txtProductCode.addKeyListener(keyAdapterAddKitBtnEnabler);
 
 		KeyAdapter keyAdapterUpdateKitBtnEnabler = new KeyAdapter() {
 			@Override
@@ -167,6 +167,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		gbc_separatorRight.gridy = 6;
 		contentPane.add(separatorRight, gbc_separatorRight);
 
+		// Search Lego By Buds
 		txtSearchBuds = new JTextField();
 		GridBagConstraints gbc_txtSearchBuds = new GridBagConstraints();
 		gbc_txtSearchBuds.insets = new Insets(0, 0, 5, 0);
@@ -202,7 +203,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(txtName, gbc_txtName);
 		txtName.setName("txtName");
 		txtName.setColumns(10);
-		txtName.addKeyListener(keyAdapterAddBtnEnabler);
+		txtName.addKeyListener(keyAdapterAddKitBtnEnabler);
 
 		separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -224,6 +225,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(btnSearchLegos, gbc_btnSearchLegos);
 		btnSearchLegos.addActionListener(e -> legoController.legosByBuds(txtSearchBuds.getText()));
 
+		// Add Kit Button
 		btnAddKit = new JButton("Add Kit");
 		btnAddKit.setEnabled(false);
 		GridBagConstraints gbc_btnAddKit = new GridBagConstraints();
@@ -234,8 +236,8 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(btnAddKit, gbc_btnAddKit);
 		btnAddKit.addActionListener(e -> btnAddKitPressed());
 
+		// List of Kits
 		listKitsModel = new DefaultListModel<>();
-
 		scrollPaneKit = new JScrollPane();
 		GridBagConstraints gbc_scrollPaneKit = new GridBagConstraints();
 		gbc_scrollPaneKit.insets = new Insets(0, 0, 5, 5);
@@ -245,23 +247,22 @@ public class LegoSwingView extends JFrame implements LegoView {
 		contentPane.add(scrollPaneKit, gbc_scrollPaneKit);
 		listKits = new JList<>(listKitsModel);
 		listKits.addListSelectionListener(listSelectionEvent -> {
-			if (!listKits.getValueIsAdjusting()) {
-				return;
-			}
 			btnDeleteKit.setEnabled(listKits.getSelectedIndex() != -1);
 			updateAddLegoButtonEnable();
 			KitEntity kit = listKits.getSelectedValue();
 			if (kit != null) {
-				legoController.legosOfKitId(kit.getId());
 				txtNewKitProductCode.setText(kit.getProductCode());
 				txtNewKitName.setText(kit.getName());
+				legoController.legosOfKitId(kit.getId());
 			}
 			updateBtnUpdateKitEnabled();
 		});
+
 		listKits.setName("listKits");
 		listKits.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneKit.setViewportView(listKits);
 
+		// Delete Kit Button
 		btnDeleteKit = new JButton("Delete Kit");
 		btnDeleteKit.setEnabled(false);
 		GridBagConstraints gbc_btnDeleteKit = new GridBagConstraints();
@@ -350,6 +351,7 @@ public class LegoSwingView extends JFrame implements LegoView {
 		txtQuantityLego.addKeyListener(keyAdapterAddLegoBtnEnabler);
 
 		btnAddLego = new JButton("Add lego");
+		btnAddLego.setEnabled(false);
 		GridBagConstraints gbc_btnAddLego = new GridBagConstraints();
 		gbc_btnAddLego.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAddLego.gridx = 1;
@@ -371,9 +373,6 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneLego.setViewportView(listLegos);
 		listLegos.addListSelectionListener(listSelectionEvent -> {
-			if (listLegos.getValueIsAdjusting()) {
-				return;
-			}
 			btnDeleteLego.setEnabled(listLegos.getSelectedIndex() != -1);
 		});
 

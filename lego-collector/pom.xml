@@ -15,8 +15,11 @@
 		<!-- compiler version -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- flag for it, e2e -->
+		<tests.skip>false</tests.skip>
 
 		<!-- plugins versions -->
 		<surefire-report.version>2.22.2</surefire-report.version>
@@ -49,10 +52,9 @@
 			${project.build.directory}/surefire-reports,
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
-		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
 
-		<!-- "Local variable and method parameter names should comply with a
-		naming convention" -->
+		<!-- "Local variable should follow naming convention" -->
+		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>
 			java:S117
 		</sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -79,12 +81,6 @@
 		<sonar.issue.ignore.multicriteria.e4.resourceKey>
 			**/*.java
 		</sonar.issue.ignore.multicriteria.e4.resourceKey>
-
-
-		<sonar.junit.reportPaths>
-			${project.build.directory}/surefire-reports,
-			${project.build.directory}/failsafe-reports
-		</sonar.junit.reportPaths>
 	</properties>
 
 	<dependencies>
@@ -128,7 +124,6 @@
 			<version>${mongo.java.driver.version}</version>
 		</dependency>
 		<dependency>
-			<!-- required to see Mongo Java Driver logs -->
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
@@ -154,6 +149,7 @@
 
 	<build>
 		<plugins>
+			<!-- to hanlde sources for ut,it,e2e -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -174,10 +170,15 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- IT and E2E -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven.failsafe.version}</version>
+				<configuration>
+					<skipTests>${tests.skip}</skipTests>
+				</configuration>
 				<executions>
 					<execution>
 						<id>default-it</id>
@@ -203,6 +204,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- to create FATJAR -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -228,6 +231,7 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
+				<!-- code coverage with jacoco and services to create reports -->
 				<plugin>
 					<artifactId>maven-surefire-report-plugin</artifactId>
 					<version>${surefire-report.version}</version>
@@ -257,6 +261,8 @@
 						</excludes>
 					</configuration>
 				</plugin>
+				
+				<!-- code coverage with coverall service for github -->
 				<plugin>
 					<groupId>org.eluder.coveralls</groupId>
 					<artifactId>coveralls-maven-plugin</artifactId>
@@ -269,6 +275,8 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+				
+				<!-- pit for Mutation Testing -->
 				<plugin>
 					<groupId>org.pitest</groupId>
 					<artifactId>pitest-maven</artifactId>
@@ -289,6 +297,8 @@
 						<mutationThreshold>100</mutationThreshold>
 					</configuration>
 				</plugin>
+				
+				<!-- sonar configuration -->
 				<plugin>
 					<groupId>org.sonarsource.scanner.maven</groupId>
 					<artifactId>sonar-maven-plugin</artifactId>
@@ -298,7 +308,9 @@
 		</pluginManagement>
 	</build>
 
+	<!-- Define profiles for the lego collector -->
 	<profiles>
+		<!-- Configuration of Jacoco profile -->
 		<profile>
 			<id>jacoco</id>
 			<build>
@@ -312,7 +324,7 @@
 			</build>
 		</profile>
 
-		<!-- Configuration of PIT plugin  -->
+		<!-- Configuration of PIT profile -->
 		<profile>
 			<id>pit</id>
 			<build>
@@ -333,4 +345,5 @@
 			</build>
 		</profile>
 	</profiles>
+	
 </project>

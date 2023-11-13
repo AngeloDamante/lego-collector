@@ -3,6 +3,7 @@ package com.angelodamante.view;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -50,11 +51,45 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		closeable.close();
 	}
 
-	@GUITest
 	@Test
 	public void testInitialState() {
-		window.label(JLabelMatcher.withText("name"));
-		window.textBox("txtName").requireEnabled();
+		// Kit
+		window.label(JLabelMatcher.withName("lblName")).requireText("name");
+		window.label(JLabelMatcher.withName("lblProductCode")).requireText("product code");
+		window.textBox(JTextComponentMatcher.withName("txtProductCode")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtProductCode")).requireEnabled();
+		window.textBox(JTextComponentMatcher.withName("txtName")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtName")).requireEnabled();
+		window.button(JButtonMatcher.withName("btnAddKit")).requireDisabled();
+		window.button(JButtonMatcher.withName("btnDeleteKit")).requireDisabled();
+		window.list("listKits");
+
+		// Lego
+		window.label(JLabelMatcher.withName("lblBudsLego")).requireText("buds");
+		window.label(JLabelMatcher.withName("lblQuantityLego")).requireText("quantity");
+		window.label(JLabelMatcher.withName("lblProductCodeLego")).requireText("product code");
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).requireEnabled();
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).requireEnabled();
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).requireEnabled();
+		window.button(JButtonMatcher.withName("btnAddLego")).requireDisabled();
+		window.button(JButtonMatcher.withName("btnDeleteLego")).requireDisabled();
+		window.list("listLegos");
+
+		// Update Kit
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtNewKitProductCode")).requireEnabled();
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).requireEnabled();
+		window.button(JButtonMatcher.withName("btnUpdateKit")).requireDisabled();
+
+		// Search Lego
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).requireEditable();
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).requireEnabled();
+		window.button(JButtonMatcher.withName("btnSearchLegos")).requireDisabled();
+		window.list("listSearchedLegos");
 	}
 
 	@Test
@@ -74,15 +109,17 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
-	public void testAddBtnIsDisabled() {
-		window.button(JButtonMatcher.withName("btnAddKit")).requireDisabled();
-	}
-
-	@Test
-	public void testAddBtnIsEnabled() {
+	public void testAddKitBtnIsEnabled() {
 		window.textBox(JTextComponentMatcher.withName("txtProductCode")).enterText("p");
 		window.textBox(JTextComponentMatcher.withName("txtName")).enterText("n");
 		window.button(JButtonMatcher.withName("btnAddKit")).requireEnabled();
+	}
+
+	@Test
+	public void testAddKitBtnIsDisabledWhenThereIsWhiteSpace() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCode")).enterText(" ");
+		window.textBox(JTextComponentMatcher.withName("txtName")).enterText("n");
+		window.button(JButtonMatcher.withName("btnAddKit")).requireDisabled();
 	}
 
 	@Test
@@ -102,16 +139,11 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
-	public void testWhenKitIsSelectedDeleteButtonIsEnabled() {
+	public void testWhenKitIsSelectedDeleteKitButtonIsEnabled() {
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
 		window.list("listKits").selectItem(0);
 		assertTrue(window.button(JButtonMatcher.withName("btnDeleteKit")).isEnabled());
-	}
-
-	@Test
-	public void testWhenKitIsNotSelectedDeleteButtonIsDisabled() {
-		assertFalse(window.button(JButtonMatcher.withName("btnDeleteKit")).isEnabled());
 	}
 
 	@Test
@@ -134,21 +166,6 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
-	public void testOnAddedLegoShouldAddTheLegoToTheList() {
-		LegoEntity le = new LegoEntity(0, "p", 1, 1, 1);
-		GuiActionRunner.execute(() -> legoSwingView.onAddedLego(le));
-		String[] listContents = window.list("listLegos").contents();
-		assertThat(listContents).containsExactly(le.toString());
-	}
-
-	@Test
-	public void testShowErrorDisplaysError() {
-		String message = "Error";
-		GuiActionRunner.execute(() -> legoSwingView.showError(message));
-		window.label(JLabelMatcher.withName("lblErrorLog")).requireText(message);
-	}
-
-	@Test
 	public void testAddNewLegoBtnIsEnabled() {
 		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
 		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
@@ -157,20 +174,6 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
 		window.list("listKits").selectItem(0);
 		window.button(JButtonMatcher.withName("btnAddLego")).requireEnabled();
-	}
-
-	@Test
-	public void testAddNewLegoCallsController() {
-		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
-		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
-		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
-
-		KitEntity kit = new KitEntity(0, "6383", "");
-		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
-		window.list("listKits").selectItem(0);
-
-		window.button(JButtonMatcher.withName("btnAddLego")).click();
-		verify(legoController).addLego("p", "2", "1", kit);
 	}
 
 	@Test
@@ -225,8 +228,32 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	}
 
 	@Test
-	public void testWhenLegoIsNotSelectedDeleteButtonIsDisabled() {
-		assertFalse(window.button(JButtonMatcher.withName("btnDeleteLego")).isEnabled());
+	public void testAddNewLegoCallsController() {
+		window.textBox(JTextComponentMatcher.withName("txtProductCodeLego")).enterText("p");
+		window.textBox(JTextComponentMatcher.withName("txtBudsLego")).enterText("2");
+		window.textBox(JTextComponentMatcher.withName("txtQuantityLego")).enterText("1");
+
+		KitEntity kit = new KitEntity(0, "6383", "");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.list("listKits").selectItem(0);
+
+		window.button(JButtonMatcher.withName("btnAddLego")).click();
+		verify(legoController).addLego("p", "2", "1", kit);
+	}
+
+	@Test
+	public void testOnAddedLegoShouldAddTheLegoToTheList() {
+		LegoEntity le = new LegoEntity(0, "p", 1, 1, 1);
+		GuiActionRunner.execute(() -> legoSwingView.onAddedLego(le));
+		String[] listContents = window.list("listLegos").contents();
+		assertThat(listContents).containsExactly(le.toString());
+	}
+
+	@Test
+	public void testShowErrorDisplaysError() {
+		String message = "Error";
+		GuiActionRunner.execute(() -> legoSwingView.showError(message));
+		window.label(JLabelMatcher.withName("lblErrorLog")).requireText(message);
 	}
 
 	@Test
@@ -250,9 +277,7 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 	public void testOnDeletedLegoShouldDeleteFromList() {
 		LegoEntity lego = new LegoEntity(0, "6383", 8, 3, 1);
 		GuiActionRunner.execute(() -> legoSwingView.onAddedLego(lego));
-
 		GuiActionRunner.execute(() -> legoSwingView.onDeletedLego(lego));
-
 		String[] listContents = window.list("listLegos").contents();
 		assertThat(listContents).isEmpty();
 	}
@@ -262,18 +287,19 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		KitEntity kit = new KitEntity(0, "6383", "");
 		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
 		window.list("listKits").selectItem(0);
-		verify(legoController).legosOfKitId(kit.getId());
-	}
-
-	@Test
-	public void testWhenLegoIsNotSelectedSearchButtonIsDisabled() {
-		assertFalse(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
+		verify(legoController, atLeastOnce()).legosOfKitId(kit.getId());
 	}
 
 	@Test
 	public void testSearchButtonIsEnabledWhenThereIsSomethingText() {
 		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText("3");
 		assertTrue(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
+	}
+
+	@Test
+	public void testSearchButtonIsDisablesWhenThereIsWhiteSpace() {
+		window.textBox(JTextComponentMatcher.withName("txtSearchBuds")).enterText(" ");
+		assertFalse(window.button(JButtonMatcher.withName("btnSearchLegos")).isEnabled());
 	}
 
 	@Test
@@ -289,11 +315,6 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		GuiActionRunner.execute(() -> legoSwingView.showAllSearchedLegos(Arrays.asList(lego)));
 		String[] legos = window.list("listSearchedLegos").contents();
 		assertThat(legos).containsExactly(lego.toString());
-	}
-
-	@Test
-	public void testUpdateKitBtnIsDisabledWhenNoKitsAreSelected() {
-		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}
 
 	@Test
@@ -313,6 +334,15 @@ public class LegoSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.list("listKits").selectItem(0);
 		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).setText("");
 		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText(" ");
+		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
+	}
+
+	@Test
+	public void testUpdateKitBtnIsDisabledWhenNoKitSelected() {
+		KitEntity kit = new KitEntity(0, "6383", "n");
+		GuiActionRunner.execute(() -> legoSwingView.onAddedKit(kit));
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).setText("p");
+		window.textBox(JTextComponentMatcher.withName("txtNewKitName")).enterText("n");
 		assertFalse(window.button(JButtonMatcher.withName("btnUpdateKit")).isEnabled());
 	}
 
