@@ -15,14 +15,15 @@
 		<!-- compiler version -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target> 
 
-		<!-- flag for it, e2e -->
-		<tests.skip>false</tests.skip>
+		<!-- test flags -->
+		<tests.ut.skip>false</tests.ut.skip>
+		<tests.it.e2e.skip>false</tests.it.e2e.skip>
 
 		<!-- plugins versions -->
-		<surefire-report.version>2.22.2</surefire-report.version>
+		<surefire.version>2.22.2</surefire.version>
 		<site.version>3.9.1</site.version>
 		<jacoco.version>0.8.6</jacoco.version>
 		<coveralls.version>4.3.0</coveralls.version>
@@ -177,7 +178,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven.failsafe.version}</version>
 				<configuration>
-					<skipTests>${tests.skip}</skipTests>
+					<skipTests>${tests.it.e2e.skip}</skipTests>
 				</configuration>
 				<executions>
 					<execution>
@@ -229,17 +230,27 @@
 				</executions>
 			</plugin>
 		</plugins>
+		
 		<pluginManagement>
 			<plugins>
 				<!-- code coverage with jacoco and services to create reports -->
 				<plugin>
 					<artifactId>maven-surefire-report-plugin</artifactId>
-					<version>${surefire-report.version}</version>
+					<version>${surefire.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.version}</version>
+					<configuration>
+						<skipTests>${tests.ut.skip}</skipTests>
+					</configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>${site.version}</version>
 				</plugin>
+				
+				<!-- coverage -->
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
