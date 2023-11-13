@@ -7,6 +7,9 @@ A simple lego collector project for Advanced Programming Techniques at Unifi.
 ###### Code coverage (by [Coveralls](https://coveralls.io/)):
 [![Coverage Status](https://coveralls.io/repos/github/AngeloDamante/lego-collector/badge.svg?branch=main)](https://coveralls.io/github/AngeloDamante/lego-collector?branch=main)
 
+###### Code coverage (by [SonarCloud](https://www.sonarsource.com/products/sonarcloud/)):
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=coverage)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
+
 ###### Code quality (by [SonarCloud](https://www.sonarsource.com/products/sonarcloud/)):
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
@@ -20,6 +23,7 @@ A simple lego collector project for Advanced Programming Techniques at Unifi.
 </br>
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
 
 ## Layout Directories
 ```
