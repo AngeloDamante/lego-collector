@@ -372,9 +372,8 @@ public class LegoSwingView extends JFrame implements LegoView {
 		listLegos.setName("listLegos");
 		listLegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneLego.setViewportView(listLegos);
-		listLegos.addListSelectionListener(listSelectionEvent -> {
-			btnDeleteLego.setEnabled(listLegos.getSelectedIndex() != -1);
-		});
+		listLegos.addListSelectionListener(
+				listSelectionEvent -> btnDeleteLego.setEnabled(listLegos.getSelectedIndex() != -1));
 
 		btnDeleteLego = new JButton("Delete Lego");
 		btnDeleteLego.setEnabled(false);

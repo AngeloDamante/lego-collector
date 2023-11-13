@@ -5,7 +5,7 @@ A simple lego collector project for Advanced Programming Techniques at Unifi.
 [![CI tests](https://github.com/AngeloDamante/lego-collector/actions/workflows/maven.yml/badge.svg)](https://github.com/AngeloDamante/lego-collector/actions/workflows/maven.yml)
 
 ###### Code coverage (by [Coveralls](https://coveralls.io/)):
-[![Coverage Status](https://coveralls.io/repos/github/AngeloDamante/lego-collector/badge.svg?branch=coverage)](https://coveralls.io/github/AngeloDamante/lego-collector?branch=coverage)
+[![Coverage Status](https://coveralls.io/repos/github/AngeloDamante/lego-collector/badge.svg?branch=main)](https://coveralls.io/github/AngeloDamante/lego-collector?branch=main)
 
 ###### Code quality (by [SonarCloud](https://www.sonarsource.com/products/sonarcloud/)):
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AngeloDamante_lego-collector&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AngeloDamante_lego-collector)
