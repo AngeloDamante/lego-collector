@@ -154,7 +154,10 @@ INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.807 s
 
 ## Model View Controller Pattern
 An mvc with repository pattern was implemented for this project for the DAL  (Data Access Layer).
-![](docs/MVC.jpg)
+<p align=center>
+    <img src=docs/MVC.jpg width=500 />
+</p>
+
 
 ## Operations
 ![](docs/interface.png)
