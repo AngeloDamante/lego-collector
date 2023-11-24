@@ -16,7 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target> 
+		<maven.compiler.target>11</maven.compiler.target>
 
 		<!-- test flags -->
 		<tests.ut.skip>false</tests.ut.skip>
@@ -54,14 +54,18 @@
 			${project.build.directory}/failsafe-reports
 		</sonar.junit.reportPaths>
 
-		<!-- "Local variable should follow naming convention" -->
+
+		<!-- Define criteria for Sonar -->
 		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
+
+		<!-- Disable "Local variable should follow naming convention" -->
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>
 			java:S117
 		</sonar.issue.ignore.multicriteria.e1.ruleKey>
 		<sonar.issue.ignore.multicriteria.e1.resourceKey>
 			**/LegoSwingView.java
 		</sonar.issue.ignore.multicriteria.e1.resourceKey>
+
 		<!-- Disable "Tests should include assertions": -->
 		<sonar.issue.ignore.multicriteria.e2.ruleKey>
 			java:S2699
@@ -69,6 +73,7 @@
 		<sonar.issue.ignore.multicriteria.e2.resourceKey>
 			**/LegoSwingViewTest.java
 		</sonar.issue.ignore.multicriteria.e2.resourceKey>
+
 		<!-- Disable "Tests classes should comply with a naming convention": -->
 		<sonar.issue.ignore.multicriteria.e3.ruleKey>
 			java:S3577
@@ -76,6 +81,8 @@
 		<sonar.issue.ignore.multicriteria.e3.resourceKey>
 			**/*E2E.java
 		</sonar.issue.ignore.multicriteria.e3.resourceKey>
+
+		<!-- Disable "Inheritance tree of classes should not be too deep" -->
 		<sonar.issue.ignore.multicriteria.e4.ruleKey>
 			java:S110
 		</sonar.issue.ignore.multicriteria.e4.ruleKey>
@@ -230,7 +237,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-		
+
 		<pluginManagement>
 			<plugins>
 				<!-- code coverage with jacoco and services to create reports -->
@@ -249,7 +256,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>${site.version}</version>
 				</plugin>
-				
+
 				<!-- coverage -->
 				<plugin>
 					<groupId>org.jacoco</groupId>
@@ -272,7 +279,7 @@
 						</excludes>
 					</configuration>
 				</plugin>
-				
+
 				<!-- code coverage with coverall service for github -->
 				<plugin>
 					<groupId>org.eluder.coveralls</groupId>
@@ -286,7 +293,7 @@
 						</dependency>
 					</dependencies>
 				</plugin>
-				
+
 				<!-- pit for Mutation Testing -->
 				<plugin>
 					<groupId>org.pitest</groupId>
@@ -308,7 +315,7 @@
 						<mutationThreshold>100</mutationThreshold>
 					</configuration>
 				</plugin>
-				
+
 				<!-- sonar configuration -->
 				<plugin>
 					<groupId>org.sonarsource.scanner.maven</groupId>
@@ -356,5 +363,5 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 </project>

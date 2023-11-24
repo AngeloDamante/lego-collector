@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.assertj.swing.annotation.GUITest;
+
 import com.angelodamante.controller.LegoController;
 import com.angelodamante.model.entities.KitEntity;
 import com.angelodamante.model.entities.LegoEntity;

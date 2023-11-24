@@ -1,12 +1,11 @@
 package com.angelodamante.app;
 
-import static org.assertj.swing.launcher.ApplicationLauncher.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.swing.launcher.ApplicationLauncher.application;
 
 import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
-
-import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.core.GenericTypeMatcher;
@@ -21,7 +20,6 @@ import org.bson.Document;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.testcontainers.containers.MongoDBContainer;
 
 import com.angelodamante.model.entities.KitEntity;
@@ -63,17 +61,20 @@ public class LegoAppE2E extends AssertJSwingJUnitTestCase {
 		mongoClient = new MongoClient(containerIpAddress, mappedPort);
 		// always start with an empty database
 		mongoClient.getDatabase(DB_NAME).drop();
-		// add some students to the database
+		
+		// add some kits to the database
 		addTestKitToDatabase(KIT_FIXTURE_1_ID, KIT_FIXTURE_1_PRODUCTCODE, KIT_FIXTURE_1_NAME);
 		addTestKitToDatabase(KIT_FIXTURE_2_ID, KIT_FIXTURE_2_PRODUCTCODE, KIT_FIXTURE_2_NAME);
 		addTestLegoToDatabase(LEGO_FIXTURE_1_OF_KIT_1_ID, LEGO_FIXTURE_1_OF_KIT_1_PRODUCTCODE,
 				LEGO_FIXTURE_1_OF_KIT_1_BUDS, LEGO_FIXTURE_1_OF_KIT_1_QUANTITY, LEGO_FIXTURE_1_OF_KIT_1_KIT_ID);
-		// start the Swing application
+		
+		// start the Swing application, passing arguments
 		application("com.angelodamante.app.LegoApp")
 				.withArgs("--mongo-host=" + containerIpAddress, "--mongo-port=" + mappedPort.toString(),
 						"--db-name=" + DB_NAME, "--db-collection-kits-name=" + KIT_COLLECTION_NAME,
 						"--db-collection-legos-name=" + LEGO_COLLECTION_NAME)
 				.start();
+		
 		// get a reference of its JFrame
 		window = WindowFinder.findFrame(new GenericTypeMatcher<JFrame>(JFrame.class) {
 			@Override

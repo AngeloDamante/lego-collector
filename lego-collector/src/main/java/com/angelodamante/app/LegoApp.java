@@ -1,6 +1,7 @@
 package com.angelodamante.app;
 
 import java.awt.EventQueue;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,11 +11,9 @@ import com.angelodamante.model.repository.KitRepository;
 import com.angelodamante.model.repository.LegoMongoRepository;
 import com.angelodamante.model.repository.LegoRepository;
 import com.angelodamante.view.LegoSwingView;
-
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
-import java.util.concurrent.Callable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

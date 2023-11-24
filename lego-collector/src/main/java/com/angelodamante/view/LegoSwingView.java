@@ -1,31 +1,29 @@
 package com.angelodamante.view;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
-
-import com.angelodamante.controller.LegoController;
-import com.angelodamante.model.entities.KitEntity;
-import com.angelodamante.model.entities.LegoEntity;
-
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.JList;
-import javax.swing.JButton;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+
+import com.angelodamante.controller.LegoController;
+import com.angelodamante.model.entities.KitEntity;
+import com.angelodamante.model.entities.LegoEntity;
 
 public class LegoSwingView extends JFrame implements LegoView {
 
